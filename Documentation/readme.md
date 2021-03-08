@@ -4,4 +4,6 @@
 
 Operator => Carlos => checks Time Schedule
 
-Time Schedule => Train (id, name)
+Time Schedule => Train (id, name) => startStation (name) => time (dateTime) => arrivalStation (name) => time (dateTime)
+
+
