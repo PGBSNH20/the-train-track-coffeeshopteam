@@ -16,9 +16,10 @@ namespace TrainConsole
 
         public class Train
         {
-            public int ID { get; set;}
-            public string Name { get; set;}
-            public bool active { get; set;}
+            public int ID { get; set; }
+            public string Name { get; set; }
+            public int MaxSpeed { get; set; }
+            public bool Active { get; set; }
 
             public void StartTrain()
             {
@@ -29,7 +30,6 @@ namespace TrainConsole
             {
 
             }
-
         }
 
         public class TimeSchedule
