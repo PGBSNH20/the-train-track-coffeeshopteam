@@ -7,12 +7,8 @@ namespace TrainEngine
 
     interface ITrainPlanner
     {
-        int TrainID { get; set; }
-        string TrainName { get; set; }
-        int MaxSpeed { get; set; }
-        int StationID { get; set; } // Till station class
-        string StationName { get; set; }
-        bool IsActive { get; set; }
+        Station Station { get; }
+        Train Train { get;}
         ITrainPlanner StartTrain();
         ITrainPlanner StopTrain();
         ITrainPlanner LevelCrossing();
@@ -21,22 +17,18 @@ namespace TrainEngine
     }
     public class TrainPlanner : ITrainPlanner
     {
-        public TrainPlanner(int trainID, string trainName, int maxSpeed, int stationID, string stationName, bool isActive)
+        public TrainPlanner(Train train, Station station)
         {
-            TrainID = trainID;
-            TrainName = trainName;
-            MaxSpeed = maxSpeed;
-            StationID = stationID;
-            StationName = stationName;
-            IsActive = isActive;
+            Train = train;
+            Station = station;
         }
+        public Train Train;
+        public Station Station;
 
-        public int TrainID { get; set; }
-        public string TrainName { get; set; }
-        public int MaxSpeed { get; set; }
-        public int StationID { get; set; }
-        public string StationName { get; set; }
-        public bool IsActive { get; set; }
+        public ITrainPlanner StartTrain(DateTime time; Station nextStation)
+        {
+            throw new NotImplementedException();
+        }
 
         public ITrainPlanner LevelCrossing()
         {
@@ -44,11 +36,6 @@ namespace TrainEngine
         }
 
         public ITrainPlanner RailSwitch()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ITrainPlanner StartTrain()
         {
             throw new NotImplementedException();
         }
@@ -77,31 +64,24 @@ namespace TrainEngine
     // .SetSwitch(switch2, SwitchDirection.Right)
     // .ToPlan();
 
-    /*public class Station
+    public class Station;
     {
         public int ID { get; set; }
         public string Name { get; set; }
-
+    public bool EndStation;
 
     }
-
-    public class Train
+  
+    public class Train;
     {
         public int ID { get; set; }
         public string Name { get; set; }
         public int MaxSpeed { get; set; }
         public bool Active { get; set; }
 
-        public void StartTrain()
-        {
-
-        }
-
-        public void StopTrain()
-        {
-
-        }
-    }*/
+       
+    }
+   
 
     public class TimeSchedule
         {
