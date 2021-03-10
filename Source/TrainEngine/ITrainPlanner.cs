@@ -5,13 +5,6 @@ using System.Text;
 namespace TrainEngine
 {
 
-    public class Passenger
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-
-    }
-
     public class TimeTableEvent
     {
         public int TrainID { get; set; }

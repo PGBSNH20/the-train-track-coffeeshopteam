@@ -152,7 +152,41 @@ namespace TrainEngine
             List<Station> stations = ParseStation(stationData);
             return stations;
         }
+
+       
+
+        private static List<Passenger> ParsePassenger(List<string[]> csvData)
+        {
+            var list = new List<Passenger>();
+
+            foreach (string[] line in csvData)
+            {
+                if (!int.TryParse(line[0], out int _ID))
+                {
+                    continue;
+                }
+
+                Passenger p = new Passenger
+                {
+                    ID = _ID,
+                    Name = line[1],
+             
+                };
+
+                list.Add(p);
+            }
+            return list;
+          
+        }
+        private static List<Passenger> LoadPassenger()
+        {
+            var path = "Data/passengers.txt";
+            var passengerData = ReadFile(path, ';');
+            List<Passenger> passengers = ParsePassenger(passengerData);
+            return passengers;
+        }
     } 
+
 
     public class TrackOrm
     {
@@ -161,4 +195,23 @@ namespace TrainEngine
             throw new NotImplementedException();
         }
     }
-}
+
+    //public static List<Passenger> Passengers = new List<Passenger>();
+    //public const string passengersInfoPath = @"DataFiles/passengers.txt";
+
+    //public static void PassengerOrm()
+    //{
+    //    string[] lines = File.ReadAllLines(passengersInfoPath);
+    //    foreach (string line in lines)
+    //    {
+    //        string[] parts = line.Split(';');
+    //        Passenger p = new Passenger
+    //        {
+    //            ID = intpaparts[0],
+    //            Name = parts[1],
+    //        };
+    //        Passengers.Add(p);
+
+    //    }
+
+    }
