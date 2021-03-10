@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace TrainEngine
 {
-
     public static class FileIO
     {
         private static List<string[]> ReadFile(string path, char seperator)
@@ -96,11 +95,36 @@ namespace TrainEngine
             List<TimeTableEvent> events = ParseTimeTable(timeTableData);
             return new TimeTable { Events = events };
         }
+        public static List<Train> ReadTrainInfo()
+        {
+            string path = "Data/trains.txt";
+            List<Train> trains = new List<Train>();
+            var data = ReadFile(path, ',');
+
+            try
+            {
+                foreach (var item in data.Skip(1))
+                {
+                    int trainID = int.Parse(item[0]);
+                    string name = item[1];
+                    int maxSpeed = int.Parse(item[2]);
+                    bool isActive = bool.Parse(item[3]);
+
+                    trains.Add(new Train(trainID, name, maxSpeed, isActive));
+                }
+            }
+            catch
+            {
+                throw new Exception("Something went wrong with trains.txt");
+            }
+            return trains;
+        }
     }
 
     public class TrackOrm
     {
         // Metoder för att läsa in filer
+       
         public List<Station> ReadStation()
         {
             var path = "Data/stations.txt";

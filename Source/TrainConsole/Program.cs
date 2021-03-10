@@ -12,7 +12,7 @@ namespace TrainConsole
             var to = new TrackOrm();
 
             var stations = to.ReadStation();
-
+            var trains = FileIO.ReadTrainInfo(); // test
 
 
             Console.WriteLine("Train track!");
