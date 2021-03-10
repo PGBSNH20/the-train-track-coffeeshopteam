@@ -9,13 +9,14 @@ namespace TrainConsole
     {
         static void Main(string[] args)
         {
-            var to = new TrackOrm();
+            //var to = new TrackOrm();
 
-            var stations = to.ReadStation();
+            //var stations = to.ReadStation();
 
+            // List<TimeTableEvent> timeTable = FileIO.LoadTimeTable("Data/timetable.txt");
 
+            ITravelPlan travelplan1 = new TravelPlan().StartAt("station1", "10:30").ArriveAt("station2", "12:30").GeneratePlan();
 
-            Console.WriteLine("Train track!");
             // Step 1:
             // Parse the traintrack (Data/traintrack.txt) using ORM (see suggested code)
             // Parse the trains (Data/trains.txt)
