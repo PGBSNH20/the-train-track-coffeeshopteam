@@ -12,14 +12,6 @@ namespace TrainEngine
 
     }
 
-    public class Train
-    { 
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public int MaxSpeed { get; set; }
-        public bool IsActive { get; set; }
-    }
-
     //TraindId,StationId,DepartureTime,ArrivalTime
     //2,1,10:20,null
     //2,2,10:45,10:43
@@ -36,29 +28,6 @@ namespace TrainEngine
         public DateTime? ArrivalTime { get; set; }
         public bool IsDeparture { get; set; }
         public bool IsFinalDestination { get; set; }
-    }
-
-    // maybe use enum for the switch direction.
-    enum SwitchDirection
-    {
-        Left,
-        Right
-    }
-
-    // maybe we dont need. if not use a global bool that checks if true or not.
-    public class TrainSwitch
-    {
-    }
-
-    public class TrainTrack
-    {
-    }
-
-    // Maybe its needed maybe not? if not, just make the boolean a global variable.
-    public class LevelCrossing
-    {
-        // A bool to say if its open or closed
-        public bool IsOpen { get; set; }
     }
 
     public interface ITrainPlanner
