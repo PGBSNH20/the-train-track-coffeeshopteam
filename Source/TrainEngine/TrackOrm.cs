@@ -96,41 +96,42 @@ namespace TrainEngine
             List<TimeTableEvent> events = ParseTimeTable(timeTableData);
             return new TimeTable { Events = events };
         }
-    }
 
-    public class TrackOrm
-    {
-        // Metoder för att läsa in filer
-        public List<Station> ReadStation()
+        private static List<Station> ParseStation(List<string[]> csvData)
         {
-            var path = "Data/stations.txt";
             var list = new List<Station>();
-            if (File.Exists(path))
-            {
-                // Läs in från fil
-                var loadItems = File.ReadAllLines(path);
 
-                // Lägg till filens innehåll i cartList
-                foreach (string line in loadItems.Skip(1))
-                {
-                    var columns = line.Split('|');
-                    Station s = new Station
-                    {
-                        ID = int.Parse(columns[0]),
-                        StationName = columns[1],
-                        EndStation = bool.Parse(columns[2])
-                    };
-                    list.Add(s);
-                }
-            }
-            else
+            foreach (string[] line in csvData)
             {
-                throw new Exception("Station information not available");
+                if (!int.TryParse(line[0], out int _ID))
+                {
+                    continue;
+                }
+
+                Station s = new Station
+                {
+                    ID = _ID,
+                    StationName = line[1],
+                    EndStation = bool.Parse(line[2])
+                };
+
+                list.Add(s);
             }
 
             return list;
         }
-      
+
+        public static List<Station> LoadStation()
+        {
+            var path = "Data/stations.txt";
+            var stationData = ReadFile(path, '|');
+            List<Station> stations = ParseStation(stationData);
+            return stations;
+        }
+    } 
+
+    public class TrackOrm
+    {
         public TrackDescription ParseTrackDescription(string track)
         {
             throw new NotImplementedException();

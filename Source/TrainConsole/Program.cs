@@ -9,11 +9,11 @@ namespace TrainConsole
     {
         static void Main(string[] args)
         {
-            var to = new TrackOrm();
 
-            var stations = to.ReadStation();
-
-
+            //Fungerar inte, FileIO och metoden är static
+            //Test metod
+            //var to = new FileIO();
+            //var stations = to.LoadStation();
 
             Console.WriteLine("Train track!");
             // Step 1:
