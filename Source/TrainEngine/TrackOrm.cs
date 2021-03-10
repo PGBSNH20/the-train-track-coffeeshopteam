@@ -5,136 +5,98 @@ using System.Linq;
 
 namespace TrainEngine
 {
-
-    public static class FileIO
+    class Coordinate
     {
-        private static List<string[]> ReadFile(string path, char seperator)
+        public int LinePosition { get; private set; }
+        public int CharacterPosition { get; private set; }
+
+        public Coordinate(int linePosition, int characterPosition)
         {
-            string[] linesOfCSV;
-            try
-            {
-                linesOfCSV = File.ReadAllLines(path);
-            }
-            // if the file is not found, we dont close the program if it can't read a file, instead it will make a empty array and let you keep the program open
-            catch (FileNotFoundException e)
-            {
-                linesOfCSV = new string[0];
-            }
-            // All other exceptions will be caught here, we write throw so the program will just close with all other exceptions.
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
-            }
-
-            List<string[]> csvData = new List<string[]>(); 
-            foreach (string line in linesOfCSV)
-            {
-                string[] csvDataLine = line.Split(seperator);
-                csvData.Add(csvDataLine);
-            }
-            return csvData;
-        }
-
-        private static List<TimeTableEvent> ParseTimeTable(List<string[]> csvData)
-        {
-            List<TimeTableEvent> events = new List<TimeTableEvent>();
-            foreach (string[] line in csvData)
-            {
-                try
-                {
-                    //int trainId = int.Parse(line[0]);
-                    if (!int.TryParse(line[0], out int trainId))
-                    {
-                        continue;
-                    }
-
-                    // trainId is being created in the if above, if it can be parsed to an int
-                    int stationId = int.Parse(line[1]);
-                    string departureTime = line[2];
-                    string arrivalTime = line[3];
-
-                    TimeTableEvent timeTableEvent = new TimeTableEvent();
-
-                    if (departureTime == "null")
-                    {
-                        timeTableEvent.IsFinalDestination = true;
-                    }
-                    else if (arrivalTime == "null")
-                    {
-                        timeTableEvent.IsDeparture = true;
-                    }
-
-                    if (departureTime != "null")
-                    {
-                        timeTableEvent.DepartureTime = DateTime.Parse(departureTime);
-                    }
-
-                    if (arrivalTime != "null")
-                    {
-                        timeTableEvent.ArrivalTime = DateTime.Parse(arrivalTime);
-                    }
-
-                    timeTableEvent.TrainID = trainId;
-                    timeTableEvent.StationID = stationId;
-
-                    events.Add(timeTableEvent);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Exception: " + e);
-                    throw;
-                }
-
-                //if (departureTime == "null")
-                //{
-                //    // final destination                    
-                //    timeTableEvent = new TimeTableEvent
-                //    {
-                //        TrainID = trainId,
-                //        StationID = stationId,
-                //        ArrivalTime = DateTime.Parse(arrivalTime),
-                //        IsFinalDestination = true
-                //    };
-                //}
-                //else if (arrivalTime == "null")
-                //{
-                //    // departure
-                //    timeTableEvent = new TimeTableEvent
-                //    {
-                //        TrainID = trainId,
-                //        StationID = stationId,
-                //        DepartureTime = DateTime.Parse(departureTime),
-                //        IsDeparture = true
-                //    };
-                //}
-                //else
-                //{
-                //    timeTableEvent = new TimeTableEvent
-                //    {
-                //        TrainID = trainId,
-                //        StationID = stationId,
-                //        DepartureTime = DateTime.Parse(departureTime),
-                //        ArrivalTime = DateTime.Parse(arrivalTime)
-                //    };
-                //}
-
-                // add the timeTableEvent variable to the list of events
-                
-            }
-            return events;
-        }
-
-        public static List<TimeTableEvent> LoadTimeTable(string path)
-        {
-            List<string[]> timeTableData = ReadFile(path, ',');
-            List<TimeTableEvent> events = ParseTimeTable(timeTableData);
-            return events;
+            LinePosition = linePosition;
+            CharacterPosition = characterPosition;
         }
     }
 
     public class TrackOrm
     {
+        public List<string> ReadTrackFile(string path)
+        {
+            List<string> trackData = FileIO.ReadFile(path);
+
+            return trackData;
+        }
+
+        public TrackDescription ParseTrackDescription(List<string> track)
+        {
+            //List<int> StationIDs { get; set; }
+            //Dictionary<int, List<int>> StationConnections { get; set; }
+            //Dictionary<(int, int), int> StationDistances { get; set; }
+
+            // *[1]-------[3]
+            Coordinate startPosition = FindStart(track);
+            int distance = 0;
+
+            for (int i = 0; i < track[startPosition.LinePosition].Length; i++)
+            {
+                char symbol = track[startPosition.LinePosition][i];
+                // check what symbol it is
+                // if - add +10 to our distance variable
+                // if [ => must be a station number following
+                // if station number, skip next symbol (because it's a ]) and there is no previous station, then save it as from station
+                // if it is a station, check if we found a station before (to store distance)
+                // and if it's a station pair and all data is stored for it, reset distance and set "from station" to current station
+                // if space character => stop parsing this line
+
+                //switch (symbol)
+                //{
+                //    case '-':
+                //        distance++;
+                //        break;
+                //    case '[':
+                //        break;
+                //    case ']':
+                //        break;
+                //    default:
+                //        break;
+                //}
+            }
+
+            return new TrackDescription();
+        }
+
+        private Dictionary<int, Coordinate> FindStations()
+        {
+            return new Dictionary<int, Coordinate>();
+        }
+
+        private void FindStationConnections(List<Coordinate> stationCoordinates)
+        {
+            // fromStationId
+            // List of toStationIds
+        }
+
+        private void GetDistanceBetweenStations(int station1, int station2)
+        {
+            
+        }
+
+        private Coordinate FindStart(List<string> track)
+        {
+            for (int i = 0; i < track.Count; i++)
+            {
+                string line = track[i];
+                for (int j = 0; j < line.Length; j++)
+                {
+                    char symbol = line[j];
+                    if (symbol == '*')
+                    {
+                        return new Coordinate(i, j);
+                    }
+                }
+            }
+            throw new Exception("Invalid track data. Couldn't find start(Are you missing an '*'?)");
+        }
+
         // Metoder för att läsa in filer
         public List<Station> ReadStation()
         {
@@ -153,7 +115,7 @@ namespace TrainEngine
                     {
                         ID = int.Parse(columns[0]),
                         StationName = columns[1],
-                        EndStation = bool.Parse(columns[2])
+                       // EndStation = bool.Parse(columns[2])
                     };
                     list.Add(s);
                 }
@@ -164,11 +126,6 @@ namespace TrainEngine
             }
 
             return list;
-        }
-      
-        public TrackDescription ParseTrackDescription(string track)
-        {
-            throw new NotImplementedException();
         }
     }
 }
