@@ -10,7 +10,7 @@ namespace TrainConsole
         static void Main(string[] args)
         {
             var trains = FileIO.ReadTrainInfo(); // test
-
+            var stations = FileIO.LoadStation(); // test
 
             //Fungerar inte, FileIO och metoden är static
             //Test metod
