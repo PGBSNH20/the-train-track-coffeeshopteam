@@ -12,13 +12,6 @@ namespace TrainEngine
 
     }
 
-    public class Station
-    {
-        public int ID { get; set; }
-        public string StationName { get; set; }
-        public bool IsFinalDestination { get; set; }
-    }
-
     public class Train
     {
         public int ID { get; set; }
@@ -67,6 +60,7 @@ namespace TrainEngine
         ITrainPlanner LevelCrossing();
         ITrainPlanner RailSwitch();
         ITrainPlanner ToPlan();
+        List<Station> Stations { get; }
         // Declare list of whatever here
 
     }
@@ -75,12 +69,15 @@ namespace TrainEngine
     {
         public Train Train { get; set; }
         public Station Station { get; set; }
+        public List<Station> Stations { get; set; }
+
         // Declare list of whatever here
 
         public TrainPlanner(Train train, Station station)
         {
             Train = train;
             Station = station;
+            Stations = new List<Station>();
         }
 
         public ITrainPlanner StartTrain(DateTime time, Station nextStation)
