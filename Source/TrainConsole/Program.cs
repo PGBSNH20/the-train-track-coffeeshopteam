@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TrainEngine;
 
 namespace TrainConsole
 {
@@ -9,9 +10,8 @@ namespace TrainConsole
         static void Main(string[] args)
         {
 
-
-
-
+            var to = new TrackOrm();
+            var trains = to.ReadTrainInfo(); // test
 
             Console.WriteLine("Train track!");
             // Step 1:
