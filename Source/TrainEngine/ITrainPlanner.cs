@@ -32,28 +32,10 @@ namespace TrainEngine
     {
         public int TrainID { get; set; }
         public int StationID { get; set; }
-        public DateTime DepartureTime { get; set; }
-        public DateTime ArrivalTime { get; set; }
+        public DateTime? DepartureTime { get; set; }
+        public DateTime? ArrivalTime { get; set; }
         public bool IsDeparture { get; set; }
         public bool IsFinalDestination { get; set; }
-    }
-
-    //public class TrialAndError
-    //{
-    //    bool IsDeparture;
-    //    public TrialAndError()
-    //    {
-    //        TimeTableEvent event1 = new TimeTableEvent { TrainID = 2, StationID = 1, DepartureTime = new DateTime(2021, 3, 10, 10, 20, 0) };
-    //        if (event1.ArrivalTime == null)
-    //        {
-    //            IsDeparture = true;
-    //        }
-    //    }
-    //}
-
-    public class TimeTable
-    {
-        public List<TimeTableEvent> Events { get; set; }
     }
 
     // maybe use enum for the switch direction.
