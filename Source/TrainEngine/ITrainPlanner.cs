@@ -9,7 +9,7 @@ namespace TrainEngine
     {
         public int ID { get; set; }
         public string Name { get; set; }
-
+        public string Name2 { get; internal set; }
     }
 
     public class Station
