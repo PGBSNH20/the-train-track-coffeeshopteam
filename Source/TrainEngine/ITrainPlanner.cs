@@ -67,12 +67,15 @@ namespace TrainEngine
         ITrainPlanner LevelCrossing();
         ITrainPlanner RailSwitch();
         ITrainPlanner ToPlan();
+        // Declare list of whatever here
+
     }
 
     public class TrainPlanner : ITrainPlanner
     {
         public Train Train { get; set; }
         public Station Station { get; set; }
+        // Declare list of whatever here
 
         public TrainPlanner(Train train, Station station)
         {
