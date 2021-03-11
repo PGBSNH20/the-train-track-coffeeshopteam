@@ -9,9 +9,8 @@ namespace TrainConsole
     {
         static void Main(string[] args)
         {
-            //var to = new TrackOrm();
 
-            //var stations = to.ReadStation();
+            string travelPlanPath = @"\Data\TravelPlan.txt";
 
             // List<TimeTableEvent> timeTable = FileIO.LoadTimeTable("Data/timetable.txt");
 
@@ -24,6 +23,12 @@ namespace TrainConsole
             // Step 2:
             // Make the trains run in treads
 
+            List<string> trackData = FileIO.ReadFile("Data/traintrack2.txt");
+            TrackOrm trackOrm = new TrackOrm();
+
+            TrackDescription trackDescription = trackOrm.ParseTrackDescription(trackData);
+
+            trackDescription.StationConnections.ForEach(connection => Console.WriteLine(connection));
         }
     }
 }

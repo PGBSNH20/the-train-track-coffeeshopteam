@@ -156,5 +156,25 @@ namespace TrainEngine
             List<TimeTableEvent> events = ParseTimeTable(timeTableData);
             return events;
         }
+
+        // Added to chars in order so when the file is getting read it wont think its a new element when reading the file
+        public static string Sanitize(string text)
+        {
+            string sanitized = "";
+            foreach (var letter in text)
+            {
+                if (letter == ',' || letter == '\'' || letter == '-')
+                {
+                    sanitized += '"' + letter.ToString() + '"';
+                }
+                else
+                {
+                    sanitized += letter.ToString();
+                }
+            }
+            return sanitized;
+        }
+
+
     }
 }
