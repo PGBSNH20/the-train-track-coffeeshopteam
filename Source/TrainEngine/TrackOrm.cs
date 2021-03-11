@@ -96,9 +96,8 @@ namespace TrainEngine
             return new TimeTable { Events = events };
         }
       
-        public static List<Train> ReadTrainInfo()
+        public static List<Train> ReadTrainInfo(string path)
         {
-            string path = "Data/trains.txt";
             List<Train> trains = new List<Train>();
             var data = ReadFile(path, ',');
 
