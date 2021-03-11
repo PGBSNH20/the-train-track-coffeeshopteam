@@ -9,23 +9,26 @@ namespace TrainConsole
     {
         static void Main(string[] args)
         {
-
-            string travelPlanPath = @"\Data\TravelPlan.txt";
-
+            TrackOrm trackOrm = new TrackOrm();
+            string travelPlanPath = "Data/TravelPlan.txt";
+            string track1Path = "Data/traintrack1.txt";
+            string track2Path = "Data/traintrack2.txt";
+            string trainsPath = "Data/trains.txt";
+            TrackDescription track1 = trackOrm.LoadTrack(track1Path);
+            TrackDescription track2 = trackOrm.LoadTrack(track2Path);
+            List<Train> trains = FileIO.ReadTrainInfo(trainsPath);
+            
             // List<TimeTableEvent> timeTable = FileIO.LoadTimeTable("Data/timetable.txt");
 
-            ITravelPlan travelplan1 = new TravelPlan().StartAt("station1", "10:30").ArriveAt("station2", "12:30").GeneratePlan();
+            ITravelPlan travelplan1 = new TravelPlan().AddTrain(trains[0]).AddTrain(trains[2]).StartAt("station1", "10:30").ArriveAt("station2", "12:30").GeneratePlan();
 
-            // Step 1:
-            // Parse the traintrack (Data/traintrack.txt) using ORM (see suggested code)
-            // Parse the trains (Data/trains.txt)
+            travelplan1.Save();
 
-            // Step 2:
-            // Make the trains run in treads
+            ITravelPlan travelplan2 = new TravelPlan();
+            travelplan2.Load();
+            travelplan2.GeneratePlan();
 
             List<string> trackData = FileIO.ReadFile("Data/traintrack2.txt");
-            TrackOrm trackOrm = new TrackOrm();
-
             TrackDescription trackDescription = trackOrm.ParseTrackDescription(trackData);
 
             trackDescription.StationConnections.ForEach(connection => Console.WriteLine(connection));

@@ -92,6 +92,13 @@ namespace TrainEngine
             return trackDescription;
         }
 
+        public TrackDescription LoadTrack(string path)
+        {
+            List<string> trackData = FileIO.ReadFile(path);
+
+            return ParseTrackDescription(trackData);
+        }
+
         private Dictionary<int, Coordinate> FindStations()
         {
             return new Dictionary<int, Coordinate>();

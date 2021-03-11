@@ -17,10 +17,10 @@ namespace TrainEngine
             TrackParts = trackParts;
         }
 
-        public override string ToString()
-        {
-            return $"Station1: {StationID}, Station2: {StationIDDestination}, Distance: {Distance}, TrackPartsCount: {TrackParts.Count}";
-        }
+        //public override string ToString()
+        //{
+        //    return $"Station1: {StationID}, Station2: {StationIDDestination}, Distance: {Distance}, TrackPartsCount: {TrackParts.Count}";
+        //}
     }
 
     public class TrackDescription

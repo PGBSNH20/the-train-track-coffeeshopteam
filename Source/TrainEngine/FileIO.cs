@@ -150,6 +150,29 @@ namespace TrainEngine
             return events;
         }
 
+        public static List<Train> ReadTrainInfo(string path)
+        {
+            List<Train> trains = new List<Train>();
+            var data = ReadFile(path, ',');
+
+            try
+            {
+                foreach (var item in data.Skip(1))
+                {
+                    int trainID = int.Parse(item[0]);
+                    string name = item[1];
+                    int maxSpeed = int.Parse(item[2]);
+                    bool isActive = bool.Parse(item[3]);
+
+                    trains.Add(new Train(trainID, name, maxSpeed, isActive));
+                }
+            }
+            catch
+            {
+                throw new Exception("Something went wrong with trains.txt");
+            }
+            return trains;
+        }
         public static List<TimeTableEvent> LoadTimeTable(string path)
         {
             List<string[]> timeTableData = ReadFile(path, ',');
