@@ -152,8 +152,6 @@ namespace TrainEngine
             return stations;
         }
 
-       
-
         private static List<Passenger> ParsePassenger(List<string[]> csvData)
         {
             var list = new List<Passenger>();
@@ -177,6 +175,7 @@ namespace TrainEngine
             return list;
           
         }
+
         private static List<Passenger> LoadPassenger()
         {
             var path = "Data/passengers.txt";
@@ -185,7 +184,6 @@ namespace TrainEngine
             return passengers;
         }
     } 
-
 
     public class TrackOrm
     {
