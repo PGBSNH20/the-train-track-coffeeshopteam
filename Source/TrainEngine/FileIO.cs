@@ -8,7 +8,7 @@ namespace TrainEngine
     public static class FileIO
     {
 
-        public static List<string[]> ReadFile(string path, char seperator)
+        public static string[] ReadFile(string path)
         {
             string[] linesOfCSV;
             try
@@ -27,7 +27,14 @@ namespace TrainEngine
                 throw;
             }
 
-            List<string[]> csvData = new List<string[]>(); 
+            return linesOfCSV;
+        }
+
+        public static List<string[]> GetDataFromFile(string path, char seperator)
+        {
+            string[] linesOfCSV = ReadFile(path);
+
+            List<string[]> csvData = new List<string[]>();
             foreach (string line in linesOfCSV)
             {
                 string[] csvDataLine = line.Split(seperator);
@@ -37,24 +44,9 @@ namespace TrainEngine
         }
 
         // to read the train files
-        public static List<string> ReadFile(string path)
+        public static List<string> GetDataFromFile(string path)
         {
-            string[] linesOfCSV;
-            try
-            {
-                linesOfCSV = File.ReadAllLines(path);
-            }
-            // if the file is not found, we dont close the program if it can't read a file, instead it will make a empty array and let you keep the program open
-            catch (FileNotFoundException e)
-            {
-                linesOfCSV = new string[0];
-            }
-            // All other exceptions will be caught here, we write throw so the program will just close with all other exceptions.
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
-            }
+            string[] linesOfCSV = ReadFile(path);
 
             List<string> csvData = linesOfCSV.ToList();
 
@@ -153,7 +145,7 @@ namespace TrainEngine
         public static List<Train> ReadTrainInfo(string path)
         {
             List<Train> trains = new List<Train>();
-            var data = ReadFile(path, ',');
+            var data = GetDataFromFile(path, ',');
 
             try
             {
@@ -175,7 +167,7 @@ namespace TrainEngine
         }
         public static List<TimeTableEvent> LoadTimeTable(string path)
         {
-            List<string[]> timeTableData = ReadFile(path, ',');
+            List<string[]> timeTableData = GetDataFromFile(path, ',');
             List<TimeTableEvent> events = ParseTimeTable(timeTableData);
             return events;
         }

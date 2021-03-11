@@ -19,6 +19,8 @@ namespace TrainEngine
         ITravelPlan ArriveAt(string station, string time);
         ITravelPlan AddTrack(TrackDescription trackDescription);
         ITravelPlan AddTrain(Train train);
+        ITravelPlan OpenLevelCrossing();
+        ITravelPlan CloseLevelCrossing();
         ITravelPlan GeneratePlan();
 
         void Save();

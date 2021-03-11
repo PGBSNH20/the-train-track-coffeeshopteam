@@ -19,13 +19,6 @@ namespace TrainEngine
 
     public class TrackOrm
     {
-        public List<string> ReadTrackFile(string path)
-        {
-            List<string> trackData = FileIO.ReadFile(path);
-
-            return trackData;
-        }
-
         public TrackDescription ParseTrackDescription(List<string> track)
         {
             //List<int> StationIDs { get; set; }
@@ -94,25 +87,9 @@ namespace TrainEngine
 
         public TrackDescription LoadTrack(string path)
         {
-            List<string> trackData = FileIO.ReadFile(path);
+            List<string> trackData = FileIO.GetDataFromFile(path);
 
             return ParseTrackDescription(trackData);
-        }
-
-        private Dictionary<int, Coordinate> FindStations()
-        {
-            return new Dictionary<int, Coordinate>();
-        }
-
-        private void FindStationConnections(List<Coordinate> stationCoordinates)
-        {
-            // fromStationId
-            // List of toStationIds
-        }
-
-        private void GetDistanceBetweenStations(int station1, int station2)
-        {
-            
         }
 
         public Coordinate FindStart(List<string> track)

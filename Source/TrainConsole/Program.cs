@@ -28,7 +28,7 @@ namespace TrainConsole
             travelplan2.Load();
             travelplan2.GeneratePlan();
 
-            List<string> trackData = FileIO.ReadFile("Data/traintrack2.txt");
+            List<string> trackData = FileIO.GetDataFromFile("Data/traintrack2.txt");
             TrackDescription trackDescription = trackOrm.ParseTrackDescription(trackData);
 
             trackDescription.StationConnections.ForEach(connection => Console.WriteLine(connection));

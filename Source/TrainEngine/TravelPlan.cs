@@ -65,5 +65,17 @@ namespace TrainEngine
             Trains.Add(train);
             return this;
         }
+
+        public ITravelPlan OpenLevelCrossing()
+        {
+            TrackDescription.OpenLevelCrossing();
+            return this;
+        }
+
+        public ITravelPlan CloseLevelCrossing()
+        {
+            TrackDescription.CloseLevelCrossing();
+            return this;
+        }
     }
 }
