@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\stations_typical.txt" />
     <None Remove="Data\trains_empty.txt" />
     <None Remove="trains_typical.txt" />
     <None Remove="trains_Wrong_Format.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Data\stations_typical.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\trains_empty.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

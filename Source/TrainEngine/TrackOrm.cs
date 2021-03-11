@@ -7,7 +7,7 @@ namespace TrainEngine
 {
     public static class FileIO
     {
-        private static List<string[]> ReadFile(string path, char seperator)
+        public static List<string[]> ReadFile(string path, char seperator)
         {
             string[] linesOfCSV;
             try
@@ -120,7 +120,7 @@ namespace TrainEngine
             return trains;
         }
     
-        private static List<Station> ParseStation(List<string[]> csvData)
+        public static List<Station> ParseStation(List<string[]> csvData)
         {
             var list = new List<Station>();
 
@@ -131,11 +131,14 @@ namespace TrainEngine
                     continue;
                 }
 
+                string _stationName = line[1];
+                bool _endStation = bool.Parse(line[2]);
+
                 Station s = new Station
                 {
                     ID = _ID,
-                    StationName = line[1],
-                    EndStation = bool.Parse(line[2])
+                    StationName = _stationName,
+                    EndStation = _endStation
                 };
 
                 list.Add(s);
