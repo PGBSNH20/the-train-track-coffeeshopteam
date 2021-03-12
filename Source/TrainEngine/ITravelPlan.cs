@@ -22,6 +22,8 @@ namespace TrainEngine
         ITravelPlan OpenLevelCrossing();
         ITravelPlan CloseLevelCrossing();
         ITravelPlan GeneratePlan();
+        // for the simulation of the trainplan
+        // void Simulate();
 
         void Save();
         void Load();
