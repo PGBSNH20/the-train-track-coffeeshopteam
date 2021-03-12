@@ -67,18 +67,10 @@ namespace TrainEngine
 
             foreach (string[] line in csvData)
             {
-                //if (!int.TryParse(line[0], out int _ID))
-                //{
-                //    var columns = line.Split('|');
-                //    Station s = new Station
-                //    {
-                //        ID = int.Parse(columns[0]),
-                //        StationName = columns[1],
-                //        // EndStation = bool.Parse(columns[2])
-                //    };
-                //    list.Add(s);
-                //    continue;
-                //}
+                if (!int.TryParse(line[0], out int _ID))
+                {
+                    continue;
+                }
                 Station s = new Station
                 {
                     ID = _ID,

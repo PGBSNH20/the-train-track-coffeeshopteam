@@ -67,11 +67,36 @@ namespace TrainEngine.Tests
             List<Train> trains = FileIO.ReadTrainInfo("Data/trains_empty.txt");
             Assert.Empty(trains);
         }
+
         [Fact]
         public void Train_No_File_Expect_Empty_List()
         {
             List<Train> trains = FileIO.ReadTrainInfo("Data/trains_.txt");
             Assert.Empty(trains);
         }
+
+        [Fact]
+        public void ReadFile_Typical_stations_Expect_Count_Four()
+        {
+            // Needs to change Readfile into public in order to work
+            // Needs to change ParseStation into public in order to work
+
+            var csvData = FileIO.ReadFile("Data/stations_typical.txt", '|');
+            var stations = FileIO.ParseStation(csvData);
+            Assert.Equal(4, stations.Count);
+            Console.WriteLine("Hej");
+        }
+
+        [Fact]
+        public void ReadFile_wrong_format_Expect_Count_Two()
+        {
+            // Needs to change Readfile into public in order to work
+            // Needs to change ParseStation into public in order to work
+
+            var csvData = FileIO.ReadFile("Data/stations_wrong_format.txt", '|');
+            var stations = FileIO.ParseStation(csvData);
+            Assert.Equal(2, stations.Count);
+        }
     }
+}
 }
