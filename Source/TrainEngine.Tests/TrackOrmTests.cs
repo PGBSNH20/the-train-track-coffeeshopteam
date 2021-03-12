@@ -81,7 +81,7 @@ namespace TrainEngine.Tests
             // Needs to change Readfile into public in order to work
             // Needs to change ParseStation into public in order to work
 
-            var csvData = FileIO.ReadFile("Data/stations_typical.txt", '|');
+            var csvData = FileIO.GetDataFromFile("Data/stations_typical.txt", '|');
             var stations = FileIO.ParseStation(csvData);
             Assert.Equal(4, stations.Count);
             Console.WriteLine("Hej");
@@ -93,10 +93,10 @@ namespace TrainEngine.Tests
             // Needs to change Readfile into public in order to work
             // Needs to change ParseStation into public in order to work
 
-            var csvData = FileIO.ReadFile("Data/stations_wrong_format.txt", '|');
+            var csvData = FileIO.GetDataFromFile("Data/stations_wrong_format.txt", '|');
             var stations = FileIO.ParseStation(csvData);
             Assert.Equal(2, stations.Count);
         }
     }
 }
-}
+

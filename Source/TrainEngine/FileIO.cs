@@ -43,7 +43,7 @@ namespace TrainEngine
             return csvData;
         }
 
-        // to read the train files
+        // to read the train files. Behöver göra samma som LoadStaion?!
         public static List<string> GetDataFromFile(string path)
         {
             string[] linesOfCSV = ReadFile(path);
@@ -53,6 +53,7 @@ namespace TrainEngine
             return csvData;
         }
 
+        // to read the station files
         public static List<Station> LoadStation()
         {
             var path = "Data/stations.txt";
@@ -61,7 +62,8 @@ namespace TrainEngine
             return stations;
         }
 
-        private static List<Station> ParseStation(List<string[]> csvData)
+
+        public static List<Station> ParseStation(List<string[]> csvData)
         {
             var list = new List<Station>();
 
@@ -84,29 +86,6 @@ namespace TrainEngine
             return list;
         }
 
-        private static List<Passenger> ParsePassenger(List<string[]> csvData)
-        {
-            var list = new List<Passenger>();
-
-            foreach (string[] line in csvData)
-            {
-                if (!int.TryParse(line[0], out int _ID))
-                {
-                    continue;
-                }
-
-                Passenger p = new Passenger
-                {
-                    ID = _ID,
-                    Name = line[1],
-
-                };
-
-                list.Add(p);
-            }
-            return list;
-
-        }
 
         // Moved it from trackorm 
         public static List<Train> ReadTrainInfo(string path)
@@ -216,7 +195,7 @@ namespace TrainEngine
                 //}
 
                 // add the timeTableEvent variable to the list of events
-                
+
             }
             return events;
         }
@@ -247,3 +226,5 @@ namespace TrainEngine
         }
     }
 }
+
+
