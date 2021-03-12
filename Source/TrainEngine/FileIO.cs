@@ -53,6 +53,93 @@ namespace TrainEngine
             return csvData;
         }
 
+        public static List<Station> LoadStation()
+        {
+            var path = "Data/stations.txt";
+            var stationData = GetDataFromFile(path, '|');
+            List<Station> stations = ParseStation(stationData);
+            return stations;
+        }
+
+        private static List<Station> ParseStation(List<string[]> csvData)
+        {
+            var list = new List<Station>();
+
+            foreach (string[] line in csvData)
+            {
+                //if (!int.TryParse(line[0], out int _ID))
+                //{
+                //    var columns = line.Split('|');
+                //    Station s = new Station
+                //    {
+                //        ID = int.Parse(columns[0]),
+                //        StationName = columns[1],
+                //        // EndStation = bool.Parse(columns[2])
+                //    };
+                //    list.Add(s);
+                //    continue;
+                //}
+                Station s = new Station
+                {
+                    ID = _ID,
+                    StationName = line[1],
+                    IsEndStation = bool.Parse(line[2])
+                };
+
+                list.Add(s);
+            }
+
+            return list;
+        }
+
+        private static List<Passenger> ParsePassenger(List<string[]> csvData)
+        {
+            var list = new List<Passenger>();
+
+            foreach (string[] line in csvData)
+            {
+                if (!int.TryParse(line[0], out int _ID))
+                {
+                    continue;
+                }
+
+                Passenger p = new Passenger
+                {
+                    ID = _ID,
+                    Name = line[1],
+
+                };
+
+                list.Add(p);
+            }
+            return list;
+
+        }
+
+        // Moved it from trackorm 
+        public static List<Train> ReadTrainInfo(string path)
+        {
+            List<Train> trains = new List<Train>();
+            var data = GetDataFromFile(path, ',');
+
+            try
+            {
+                foreach (var item in data.Skip(1))
+                {
+                    int trainID = int.Parse(item[0]);
+                    string name = item[1];
+                    int maxSpeed = int.Parse(item[2]);
+                    bool isActive = bool.Parse(item[3]);
+
+                    trains.Add(new Train(trainID, name, maxSpeed, isActive));
+                }
+            }
+            catch
+            {
+                throw new Exception("Something went wrong with trains.txt");
+            }
+            return trains;
+        }
         private static List<TimeTableEvent> ParseTimeTable(List<string[]> csvData)
         {
             List<TimeTableEvent> events = new List<TimeTableEvent>();
@@ -142,29 +229,6 @@ namespace TrainEngine
             return events;
         }
 
-        public static List<Train> ReadTrainInfo(string path)
-        {
-            List<Train> trains = new List<Train>();
-            var data = GetDataFromFile(path, ',');
-
-            try
-            {
-                foreach (var item in data.Skip(1))
-                {
-                    int trainID = int.Parse(item[0]);
-                    string name = item[1];
-                    int maxSpeed = int.Parse(item[2]);
-                    bool isActive = bool.Parse(item[3]);
-
-                    trains.Add(new Train(trainID, name, maxSpeed, isActive));
-                }
-            }
-            catch
-            {
-                throw new Exception("Something went wrong with trains.txt");
-            }
-            return trains;
-        }
         public static List<TimeTableEvent> LoadTimeTable(string path)
         {
             List<string[]> timeTableData = GetDataFromFile(path, ',');
@@ -189,7 +253,5 @@ namespace TrainEngine
             }
             return sanitized;
         }
-
-
     }
 }

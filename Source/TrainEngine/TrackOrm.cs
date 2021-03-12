@@ -59,7 +59,7 @@ namespace TrainEngine
                     {
                         var stationConnection = new StationConnection(currentStationId, stationId, distance, trackParts);
                         trackDescription.StationConnections.Add(stationConnection);
-                       // trackDescription.NumberOfTrackParts += trackParts.Count;
+                        // trackDescription.NumberOfTrackParts += trackParts.Count;
 
                         // Reset values
                         currentStationId = stationId;
@@ -110,103 +110,91 @@ namespace TrainEngine
             throw new Exception("Invalid track data. Couldn't find start(Are you missing an '*'?)");
         }
 
-        // Metoder för att läsa in filer
-        public List<Station> ReadStation()
-      
-        public static List<Train> ReadTrainInfo(string path)
-        {
-            List<Train> trains = new List<Train>();
-            var data = ReadFile(path, ',');
+        //public static List<Train> ReadTrainInfo(string path)
+        //{
+        //    List<Train> trains = new List<Train>();
+        //    var data = ReadFile(path, ',');
 
-            try
-            {
-                foreach (var item in data.Skip(1))
-                {
-                    int trainID = int.Parse(item[0]);
-                    string name = item[1];
-                    int maxSpeed = int.Parse(item[2]);
-                    bool isActive = bool.Parse(item[3]);
+        //    try
+        //    {
+        //        foreach (var item in data.Skip(1))
+        //        {
+        //            int trainID = int.Parse(item[0]);
+        //            string name = item[1];
+        //            int maxSpeed = int.Parse(item[2]);
+        //            bool isActive = bool.Parse(item[3]);
 
-                    trains.Add(new Train(trainID, name, maxSpeed, isActive));
-                }
-            }
-            catch
-            {
-                throw new Exception("Something went wrong with trains.txt");
-            }
-            return trains;
-        }
-    
-        private static List<Station> ParseStation(List<string[]> csvData)
-        {
-            var list = new List<Station>();
+        //            trains.Add(new Train(trainID, name, maxSpeed, isActive));
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        throw new Exception("Something went wrong with trains.txt");
+        //    }
+        //    return trains;
+        //}
 
-            foreach (string[] line in csvData)
-            {
-                if (!int.TryParse(line[0], out int _ID))
-                {
-                    var columns = line.Split('|');
-                    Station s = new Station
-                    {
-                        ID = int.Parse(columns[0]),
-                        StationName = columns[1],
-                       // EndStation = bool.Parse(columns[2])
-                    };
-                    list.Add(s);
-                    continue;
-                }
-                Station s = new Station
-                {
-                    ID = _ID,
-                    StationName = line[1],
-                    EndStation = bool.Parse(line[2])
-                };
+        //private static List<Station> ParseStation(List<string[]> csvData)
+        //{
+        //    var list = new List<Station>();
 
-                list.Add(s);
-            }
+        //    foreach (string[] line in csvData)
+        //    {
+        //        if (!int.TryParse(line[0], out int _ID))
+        //        {
+        //            var columns = line.Split('|');
+        //            Station s = new Station
+        //            {
+        //                ID = int.Parse(columns[0]),
+        //                StationName = columns[1],
+        //                // EndStation = bool.Parse(columns[2])
+        //            };
+        //            list.Add(s);
+        //            continue;
+        //        }
+        //        Station s = new Station
+        //        {
+        //            ID = _ID,
+        //            StationName = line[1],
+        //            EndStation = bool.Parse(line[2])
+        //        };
 
-            return list;
-        }
+        //        list.Add(s);
+        //    }
 
-        public static List<Station> LoadStation()
-        {
-            var path = "Data/stations.txt";
-            var stationData = ReadFile(path, '|');
-            List<Station> stations = ParseStation(stationData);
-            return stations;
-        }
+        //    return list;
+        //}
 
-        private static List<Passenger> ParsePassenger(List<string[]> csvData)
-        {
-            var list = new List<Passenger>();
+        //public static List<Station> LoadStation()
+        //{
+        //    var path = "Data/stations.txt";
+        //    var stationData = ReadFile(path, '|');
+        //    List<Station> stations = ParseStation(stationData);
+        //    return stations;
+        //}
 
-            foreach (string[] line in csvData)
-            {
-                if (!int.TryParse(line[0], out int _ID))
-                {
-                    continue;
-                }
+        //private static List<Passenger> ParsePassenger(List<string[]> csvData)
+        //{
+        //    var list = new List<Passenger>();
 
-                Passenger p = new Passenger
-                {
-                    ID = _ID,
-                    Name = line[1],
-             
-                };
+        //    foreach (string[] line in csvData)
+        //    {
+        //        if (!int.TryParse(line[0], out int _ID))
+        //        {
+        //            continue;
+        //        }
 
-                list.Add(p);
-            }
-            return list;
-          
-        }
+        //        Passenger p = new Passenger
+        //        {
+        //            ID = _ID,
+        //            Name = line[1],
 
-    public class TrackOrm
-    {
-        public TrackDescription ParseTrackDescription(string track)
-        {
-            throw new NotImplementedException();
-        }
+        //        };
+
+        //        list.Add(p);
+        //    }
+        //    return list;
+
+        //}
     }
-
-
 }
