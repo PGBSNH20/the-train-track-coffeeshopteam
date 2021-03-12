@@ -184,7 +184,7 @@ This is some **suggestions** on how you can get started on this project:
 7. If needed implement a fake time, so that the simulation will not run for hours, it could be a class called `Clock`
 8. Implement a thread on one train or on the TravelPlan, so that the simulation of the TravelPlan following the time table can be simulated
 9. Start the simulator and see that everything works (with one train)
-10. Go to **advanced** level: 
+10. OPTIONAL!! Go to **advanced** level: 
     * Extend the ORM to support *traintrack3.txt*
     * Make sure the TravelPlan handles railroad switches
     * Start the simulator and see that everything works (first with one train, then with two), and that the trains don't crash into each other :)
