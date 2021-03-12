@@ -1,7 +1,11 @@
-﻿namespace TrainEngine
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace TrainEngine
 {
     public class Train
-    { 
+    {
         public int ID { get; set; }
         public string Name { get; set; }
         public int MaxSpeed { get; set; }
@@ -16,7 +20,3 @@
         }
     }
 }
-
-        
-
-

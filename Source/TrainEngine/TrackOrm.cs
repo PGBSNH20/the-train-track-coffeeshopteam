@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace TrainEngine
 {
+
     public class Coordinate
     {
         public int LinePosition { get; private set; }
@@ -111,16 +112,38 @@ namespace TrainEngine
 
         // Metoder för att läsa in filer
         public List<Station> ReadStation()
+      
+        public static List<Train> ReadTrainInfo(string path)
         {
-            var path = "Data/stations.txt";
-            var list = new List<Station>();
-            if (File.Exists(path))
-            {
-                // Läs in från fil
-                var loadItems = File.ReadAllLines(path);
+            List<Train> trains = new List<Train>();
+            var data = ReadFile(path, ',');
 
-                // Lägg till filens innehåll i cartList
-                foreach (string line in loadItems.Skip(1))
+            try
+            {
+                foreach (var item in data.Skip(1))
+                {
+                    int trainID = int.Parse(item[0]);
+                    string name = item[1];
+                    int maxSpeed = int.Parse(item[2]);
+                    bool isActive = bool.Parse(item[3]);
+
+                    trains.Add(new Train(trainID, name, maxSpeed, isActive));
+                }
+            }
+            catch
+            {
+                throw new Exception("Something went wrong with trains.txt");
+            }
+            return trains;
+        }
+    
+        private static List<Station> ParseStation(List<string[]> csvData)
+        {
+            var list = new List<Station>();
+
+            foreach (string[] line in csvData)
+            {
+                if (!int.TryParse(line[0], out int _ID))
                 {
                     var columns = line.Split('|');
                     Station s = new Station
@@ -130,14 +153,60 @@ namespace TrainEngine
                        // EndStation = bool.Parse(columns[2])
                     };
                     list.Add(s);
+                    continue;
                 }
-            }
-            else
-            {
-                throw new Exception("Station information not available");
+                Station s = new Station
+                {
+                    ID = _ID,
+                    StationName = line[1],
+                    EndStation = bool.Parse(line[2])
+                };
+
+                list.Add(s);
             }
 
             return list;
         }
+
+        public static List<Station> LoadStation()
+        {
+            var path = "Data/stations.txt";
+            var stationData = ReadFile(path, '|');
+            List<Station> stations = ParseStation(stationData);
+            return stations;
+        }
+
+        private static List<Passenger> ParsePassenger(List<string[]> csvData)
+        {
+            var list = new List<Passenger>();
+
+            foreach (string[] line in csvData)
+            {
+                if (!int.TryParse(line[0], out int _ID))
+                {
+                    continue;
+                }
+
+                Passenger p = new Passenger
+                {
+                    ID = _ID,
+                    Name = line[1],
+             
+                };
+
+                list.Add(p);
+            }
+            return list;
+          
+        }
+
+    public class TrackOrm
+    {
+        public TrackDescription ParseTrackDescription(string track)
+        {
+            throw new NotImplementedException();
+        }
     }
+
+
 }

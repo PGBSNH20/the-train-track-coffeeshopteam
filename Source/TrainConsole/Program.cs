@@ -9,6 +9,7 @@ namespace TrainConsole
     {
         static void Main(string[] args)
         {
+
             TrackOrm trackOrm = new TrackOrm();
             string travelPlanPath = "Data/TravelPlan.txt";
             string track1Path = "Data/traintrack1.txt";
@@ -27,6 +28,15 @@ namespace TrainConsole
             ITravelPlan travelplan2 = new TravelPlan();
             travelplan2.Load();
             travelplan2.GeneratePlan();
+
+            var trains = FileIO.ReadTrainInfo("Data/trains.txt"); // test
+            var stations = FileIO.LoadStation(); // test
+
+            //Fungerar inte, FileIO och metoden är static
+            //Test metod
+            //var to = new FileIO();
+            //var stations = to.LoadStation();
+
 
             List<string> trackData = FileIO.GetDataFromFile("Data/traintrack2.txt");
             TrackDescription trackDescription = trackOrm.ParseTrackDescription(trackData);

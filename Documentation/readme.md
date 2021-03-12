@@ -16,4 +16,7 @@ Idag, blev planen att få struktur til program: skappa klasser, interface, varia
 
 Idag, försätte vi efter en bas struktur med att skippa skapa helt ny object (t.ex : new station) och bara jobba att läsa in från text fil dem informationen det finns där, så jobbade vi att skapa logik att kunna läsa text filer.
 
+## 2021-03-11
+Vi ska hålla på med att skriva tester för alla ORM metoder. Även för den enkla versionen av fluent API ska vi göra tester. Load TrainTrack har vi börjat med igår. Idag ska vi kolla om vi kan får den färdig. 
+
 
