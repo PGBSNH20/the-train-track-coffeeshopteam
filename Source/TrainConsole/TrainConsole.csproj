@@ -43,7 +43,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Data\TravelPlan.txt">
-
+    </None>
     <None Update="Data\traintrack.txt">
 
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
