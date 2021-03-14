@@ -84,7 +84,6 @@ namespace TrainEngine.Tests
             var csvData = FileIO.GetDataFromFile("Data/stations_typical.txt", '|');
             var stations = FileIO.ParseStation(csvData);
             Assert.Equal(4, stations.Count);
-            Console.WriteLine("Hej");
         }
 
         [Fact]

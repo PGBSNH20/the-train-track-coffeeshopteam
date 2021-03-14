@@ -29,6 +29,9 @@ namespace TrainEngine
         public bool LevelCrossingIsOpen { get; private set; }
         public int NumberOfTrackParts { get; set; }
 
+        // Here we can also find the distance to the levelcrossing by putting the trackparts through a foreach until we find the '='
+        // if we need it for opening timing, for example using an int "crossingPosition += 10"
+
         public bool HasLevelCrossing()
         {
             foreach (var stationConnection in StationConnections)

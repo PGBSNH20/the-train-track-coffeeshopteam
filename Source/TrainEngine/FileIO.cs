@@ -7,7 +7,6 @@ namespace TrainEngine
 {
     public static class FileIO
     {
-
         public static string[] ReadFile(string path)
         {
             string[] linesOfCSV;
@@ -62,7 +61,6 @@ namespace TrainEngine
             return stations;
         }
 
-
         public static List<Station> ParseStation(List<string[]> csvData)
         {
             var list = new List<Station>();
@@ -85,7 +83,6 @@ namespace TrainEngine
 
             return list;
         }
-
 
         // Moved it from trackorm 
         public static List<Train> ReadTrainInfo(string path)
@@ -111,6 +108,7 @@ namespace TrainEngine
             }
             return trains;
         }
+
         private static List<TimeTableEvent> ParseTimeTable(List<string[]> csvData)
         {
             List<TimeTableEvent> events = new List<TimeTableEvent>();
