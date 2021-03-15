@@ -11,11 +11,11 @@ namespace TrainConsole
         static void Main(string[] args)
         {
             Clock clock1 = new Clock();
-            for (int i = 0; i < 15; i++)
-            {
-                clock1.ShowTime();
-                Thread.Sleep(100);
-            }
+            //for (int i = 0; i < 15; i++)
+            //{
+            //    clock1.ShowTime();
+            //    Thread.Sleep(100);
+            //}
 
             TrackOrm trackOrm = new TrackOrm();
             string track1Path = "Data/traintrack1.txt";
