@@ -1,10 +1,10 @@
 ﻿namespace TrainEngine
 {
     // maybe use enum for the switch direction.
-    enum SwitchDirection
+    public enum SwitchDirection
     {
-        Left,
-        Right
+        Up,
+        Down
     }
 }
 

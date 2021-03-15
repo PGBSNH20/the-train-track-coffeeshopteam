@@ -110,6 +110,68 @@ namespace TrainEngine
             throw new Exception("Invalid track data. Couldn't find start(Are you missing an '*'?)");
         }
 
+        // TrainTrack3
+
+        public TrackDescription LoadBigTrack(string path)
+        {
+            var trackparts = FileIO.GetDataFromFile(path);
+
+            return ParseBigTrack(trackparts);
+        }
+
+        public TrackDescription ParseBigTrack(List<string> trackparts)
+        {
+            // Read it top-bottom instead
+            // public class StationConnection
+            //    {
+            //public int Distance { get; set; }
+            //public int StationID { get; set; }
+            //public int StationIDDestination { get; set; }
+            //public List<char> TrackParts { get; set; }
+            // public SwitchDirection SwitchDirection { get; private set; } (enum)
+
+            //    public class TrackDescription
+            //{
+            //    // Here we can also find the distance to the levelcrossing by putting the trackparts through a foreach until we find the '='
+            //    // if we need it for opening timing, for example using an int "crossingPosition += 10"
+
+            //    public List<StationConnection> StationConnections { get; set; } = new List<StationConnection>();
+            //    public bool LevelCrossingIsOpen { get; private set; }
+            //    public int NumberOfTrackParts { get; set; }
+            var trackDescription = new TrackDescription();
+            var currentStationID = 0;
+            var stationConnections = new List<StationConnection>();
+            var railChars = "-\\/";
+            var switchChars = "<>";
+            var firstDistance = 0;
+            var bigtrackparts = new List<char>();
+
+            // skapa ett objekt som har första hållplatsen
+            // Fyll på distance allt eftersom
+            // Lägg till ev. level crossing
+            // När switch < kommer - klona första objektet och ändra switchen
+            // Fyll på distance på båda
+            // Om siffra - set destination id och starta ett nytt objekt med stationid= destination id
+            for (int i = 0; i < trackparts.Count; i++)
+            {
+                var line = trackparts[i];
+                for (int j = 0; j < line.Length; j++)
+                {
+                    //var c = line[i];
+                    foreach (char c in line)
+                    {
+
+                    }
+                }
+            }
+
+
+
+
+
+            //return trackDescription;
+        }
+
         //public static List<Train> ReadTrainInfo(string path)
         //{
         //    List<Train> trains = new List<Train>();
@@ -196,5 +258,7 @@ namespace TrainEngine
         //    return list;
 
         //}
+
+
     }
 }
