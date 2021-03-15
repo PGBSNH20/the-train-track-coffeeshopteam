@@ -53,7 +53,7 @@ namespace TrainEngine
         // Method ShowTime()
         public void ShowTime()
         {
-            Console.WriteLine($"Current time is {Time.ToString(@"hh\:mm", CultureInfo.InvariantCulture)}"); 
+            Console.WriteLine($"Current time is {Time.ToString(@"hh\:mm", CultureInfo.InvariantCulture)}");
         }
 
         // Method GetTime() : to give the time to other classes | or Property

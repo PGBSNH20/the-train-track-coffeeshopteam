@@ -9,12 +9,11 @@ namespace TrainEngine
     public interface ITravelPlanner
     {
         TrackDescription TrackDescription { get; set; }
-        List<Train> Trains { get; set; }
-
-        ITravelPlanner StartAt(int stationID, string time);
-        ITravelPlanner ArriveAt(int stationID, string time);
+        Train Train { get; set; }
+        List<Event> TimeTable { get; set;}
+        ITravelPlanner StartAt(string time);
+        ITravelPlanner ArriveAt(Station stationArrival, string time);
         ITravelPlanner AddTrack(TrackDescription trackDescription);
-        ITravelPlanner AddTrain(Train train);
         ITravelPlanner OpenLevelCrossing();
         ITravelPlanner CloseLevelCrossing();
         ITravelPlanner GeneratePlan();
