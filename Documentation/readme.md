@@ -19,4 +19,5 @@ Idag, försätte vi efter en bas struktur med att skippa skapa helt ny object (t
 ## 2021-03-11
 Vi ska hålla på med att skriva tester för alla ORM metoder. Även för den enkla versionen av fluent API ska vi göra tester. Load TrainTrack har vi börjat med igår. Idag ska vi kolla om vi kan får den färdig. 
 
-
+## 2121-03-12
+Vi "merged" repositories och nu försätter vi med intruktion 7 och idag ska vi fokusera på det och bygga ett klocka

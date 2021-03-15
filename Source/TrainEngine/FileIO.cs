@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +7,6 @@ namespace TrainEngine
 {
     public static class FileIO
     {
-
         public static string[] ReadFile(string path)
         {
             string[] linesOfCSV;
@@ -43,7 +42,7 @@ namespace TrainEngine
             return csvData;
         }
 
-        // to read the train files
+        // to read the train files. Behöver göra samma som LoadStaion?!
         public static List<string> GetDataFromFile(string path)
         {
             string[] linesOfCSV = ReadFile(path);
@@ -61,7 +60,7 @@ namespace TrainEngine
             return stations;
         }
 
-        private static List<Station> ParseStation(List<string[]> csvData)
+        public static List<Station> ParseStation(List<string[]> csvData)
         {
             var list = new List<Station>();
 
@@ -82,30 +81,6 @@ namespace TrainEngine
             }
 
             return list;
-        }
-
-        private static List<Passenger> ParsePassenger(List<string[]> csvData)
-        {
-            var list = new List<Passenger>();
-
-            foreach (string[] line in csvData)
-            {
-                if (!int.TryParse(line[0], out int _ID))
-                {
-                    continue;
-                }
-
-                Passenger p = new Passenger
-                {
-                    ID = _ID,
-                    Name = line[1],
-
-                };
-
-                list.Add(p);
-            }
-            return list;
-
         }
 
         // Moved it from trackorm 
@@ -132,7 +107,7 @@ namespace TrainEngine
             }
             return trains;
         }
-
+      
         // Added to chars in order so when the file is getting read it wont think its a new element when reading the file
         public static string Sanitize(string text)
         {
@@ -152,3 +127,5 @@ namespace TrainEngine
         }
     }
 }
+
+
