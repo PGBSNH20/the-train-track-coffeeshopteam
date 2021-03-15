@@ -7,36 +7,7 @@ namespace TrainEngine.Tests
 {
     public class TrackOrmTests
     {
-        //[Fact]
-        //public void When_OnlyAStationIsProvided_Expect_TheResultOnlyToContainAStationWithId1()
-        //{
-        //    // Arrange
-        //    string track = "[1]";
-        //    TrackOrm trackOrm = new TrackOrm();
-
-        //    // Act
-        //    var result = trackOrm.ParseTrackDescription(track);
-
-        //    // Assert
-        //    //Assert.IsType<Station>(result.TackPart[0]);
-        //    //Station s = (Station)result.TackPart[0];
-        //    //Assert.Equal(1, s.Id);
-        //}
-
-        //[Fact]
-        //public void When_ProvidingTwoStationsWithOneTrackBetween_Expect_TheTrackToConcistOf3Parts()
-        //{
-        //    // Arrange
-        //    string track = "[1]-[2]";
-        //    TrackOrm trackOrm = new TrackOrm();
-            
-        //    // Act
-        //    var result = trackOrm.ParseTrackDescription(track);
-
-        //    // Assert
-        //    Assert.Equal(3, result.NumberOfTrackParts);
-        //}
-
+       
         [Fact]
         public void Train_Typical_Expect_Success()
         {
@@ -81,16 +52,17 @@ namespace TrainEngine.Tests
             // Needs to change Readfile into public in order to work
             // Needs to change ParseStation into public in order to work
 
+
             var csvData = FileIO.GetDataFromFile("Data/stations_typical.txt", '|');
             var stations = FileIO.ParseStation(csvData);
             Assert.Equal(4, stations.Count);
         }
 
-        [Fact]
-        public void ReadFile_wrong_format_Expect_Count_Two()
-        {
-            // Needs to change Readfile into public in order to work
-            // Needs to change ParseStation into public in order to work
+          [Fact]
+          public void ReadFile_wrong_format_Expect_Count_Two()
+          {
+    //        // Needs to change Readfile into public in order to work
+    //        // Needs to change ParseStation into public in order to work
 
             var csvData = FileIO.GetDataFromFile("Data/stations_wrong_format.txt", '|');
             var stations = FileIO.ParseStation(csvData);
