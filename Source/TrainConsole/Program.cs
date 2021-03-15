@@ -24,7 +24,31 @@ namespace TrainConsole
             string trainsPath = "Data/trains.txt";
             List<Train> trains = FileIO.ReadTrainInfo(trainsPath);
 
-            //ITravelPlan travelplan2 = new TravelPlanner().AddTrain(trains[0]).StartAt(1, "10:30").ArriveAt(2, "12:30").GeneratePlan();
+            
+            // List<TimeTableEvent> timeTable = FileIO.LoadTimeTable("Data/timetable.txt");
+
+            //ITravelPlan travelplan1 = new TravelPlan().AddTrain(trains[0]).StartAt("station1", "10:30").ArriveAt("station2", "12:30").GeneratePlan();
+
+            //travelplan1.Save();
+
+            //ITravelPlan travelplan2 = new TravelPlan();
+            //travelplan2.Load();
+            //travelplan2.GeneratePlan();
+
+            //var trains = FileIO.ReadTrainInfo("Data/trains.txt"); // test
+            //var stations = FileIO.LoadStation(); // test
+
+            //Fungerar inte, FileIO och metoden är static
+            //Test metod
+            //var to = new FileIO();
+            //var stations = to.LoadStation();
+
+
+            List<string> trackData = FileIO.GetDataFromFile("Data/traintrack2.txt");
+            TrackDescription trackDescription = trackOrm.ParseTrackDescription(trackData);
+
+
+            ITravelPlanner travelplan2 = new TravelPlanner().AddTrain(trains[0]).StartAt(1, "10:30").ArriveAt(2, "12:30").GeneratePlan();
             //travelplan2.Simulate(clock1);
         }
     }
