@@ -6,10 +6,10 @@ namespace TrainEngine
 {
     public class TimeTableEvent
     {
-        public int TrainID { get; set; }
-        public int StationID { get; set; }
-        public DateTime? DepartureTime { get; set; }
-        public DateTime? ArrivalTime { get; set; }
+        public int TrainID;
+        public int StationID;
+        public DateTime? DepartureTime;
+        public DateTime? ArrivalTime;
         public bool IsDeparture { get; set; }
         public bool IsFinalDestination { get; set; }
     }
