@@ -47,6 +47,7 @@ namespace TrainConsole
             List<string> trackData = FileIO.GetDataFromFile("Data/traintrack2.txt");
             TrackDescription trackDescription = trackOrm.ParseTrackDescription(trackData);
 
+            ITravelPlanner travelPlanSofie = new TravelPlanner().AddTrain(trains[3]).StartAt(1, "10:00").ArriveAt(2, "12:12").StartAt(2, "12:17").ArriveAt(3, "14:53").GeneratePlan();
 
             ITravelPlanner travelplan2 = new TravelPlanner().AddTrain(trains[0]).StartAt(1, "10:30").ArriveAt(2, "12:30").GeneratePlan();
             //travelplan2.Simulate(clock1);

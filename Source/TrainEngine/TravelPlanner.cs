@@ -17,7 +17,6 @@ namespace TrainEngine
         public TrackDescription TrackDescription { get; set; }
         public List<Station> stations;
         public List<Train> Trains { get; set; } = new List<Train>();
-
         private List<TravelPlanData> travelPlanDatas;
         private int startStationId;
         private int arriveStationId;
@@ -38,11 +37,16 @@ namespace TrainEngine
 
         public ITravelPlanner AddTrain(Train train)
         {
-            // Only want to add the train once to the list
-            if (!Trains.Contains(train))
+            if (!train.IsOperated)
             {
-                Trains.Add(train);
+                throw new Exception("This train is not running");
             }
+
+            //// Only want to add the train once to the list
+            //if (!Trains.Contains(train))
+            //{
+            //    Trains.Add(train);
+            //}
             trainID = train.ID;
             return this;
         }
@@ -125,6 +129,12 @@ namespace TrainEngine
         {
             //Console.WriteLine($"The train starts in {startStation} station at {startTime}.");
             //Console.WriteLine($"The train arrives in {arriveStation} station at {arriveTime}.");
+
+            //Kontrollera om tåget IsActicve else kasta exception
+            // Kontrollera arrival time, meddela stor avvikelse
+
+            // Använd Save() för att spara planen. 
+
             Trains.ForEach(train => Console.WriteLine("Train name: " + train.Name));
             return this;
         }
@@ -139,6 +149,20 @@ namespace TrainEngine
         {
             TrackDescription.CloseLevelCrossing();
             return this;
+        }
+
+        public void Save()
+        {
+            string jsonString = JsonSerializer.Serialize(this);
+            File.WriteAllText("Data/TravelPlan.txt", jsonString);
+        }
+
+        public void Load()
+        {
+            string jsonString = File.ReadAllText("Data/TravelPlan.txt");
+            TravelPlan travelPlan = JsonSerializer.Deserialize<TravelPlan>(jsonString);
+
+            TravelPlanDatas = travelPlan.TravelPlanDatas;
         }
     }
 }

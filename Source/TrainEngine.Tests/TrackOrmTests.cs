@@ -17,11 +17,11 @@ namespace TrainEngine.Tests
             Assert.Equal(1, trainsArray[0].ID);
             Assert.Equal("Flying Scotsman", trainsArray[0].Name);
             Assert.Equal(100, trainsArray[0].MaxSpeed);
-            Assert.False(trainsArray[0].IsActive);
+            Assert.False(trainsArray[0].IsOperated);
             Assert.Equal(2, trainsArray[1].ID);
             Assert.Equal("Golden Arrow", trainsArray[1].Name);
             Assert.Equal(120, trainsArray[1].MaxSpeed);
-            Assert.True(trainsArray[1].IsActive);
+            Assert.True(trainsArray[1].IsOperated);
         }
 
         [Fact]

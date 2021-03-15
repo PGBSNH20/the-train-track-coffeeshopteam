@@ -18,18 +18,6 @@ namespace TrainEngine
         // load()   *
         // save()   *
 
-        public void Save()
-        {
-            string jsonString = JsonSerializer.Serialize(this);
-            File.WriteAllText("Data/TravelPlan.txt", jsonString);
-        }
-
-        public void Load()
-        {
-            string jsonString = File.ReadAllText("Data/TravelPlan.txt");
-            TravelPlan travelPlan = JsonSerializer.Deserialize<TravelPlan>(jsonString);
-
-            TravelPlanDatas = travelPlan.TravelPlanDatas;
-        }
+       
     }
 }
