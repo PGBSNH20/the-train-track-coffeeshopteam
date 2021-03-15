@@ -55,26 +55,26 @@ namespace TrainEngine
 
         public ITravelPlanner StartAt(int stationId, string time)
         {
-            //// startStation = GetStationById(stationId);
-            //startStationId = stationId;
-            //startTime = TimeSpan.Parse(time);
-            //bool dataExists = false;
+            // startStation = GetStationById(stationId);
+            startStationId = stationId;
+            startTime = TimeSpan.Parse(time);
+            bool dataExists = false;
 
-            //for (int i = 0; i < travelPlanDatas.Count; i++)
-            //{
-            //    TravelPlanData travelPlanData = travelPlanDatas[i];
-            //    if (travelPlanData.TrainID == trainID &&
-            //        travelPlanData.ArriveStationID == stationId && 
-            //        travelPlanData.ArriveTime == startTime)
-            //    {
-            //        dataExists = true;
-            //        travelPlanData.StartStationID = stationId;
-            //        travelPlanData.StartTime = startTime;
-            //        break;
-            //    }
-            //}
+            for (int i = 0; i < travelPlanDatas.Count; i++)
+            {
+                TravelPlanData travelPlanData = travelPlanDatas[i];
+                if (travelPlanData.TrainID == trainID &&
+                    travelPlanData.ArriveStationID == stationId &&
+                    travelPlanData.ArriveTime == startTime)
+                {
+                    dataExists = true;
+                    travelPlanData.StartStationID = stationId;
+                    travelPlanData.StartTime = startTime;
+                    break;
+                }
+            }
 
-            //travelPlanDatas.Add(new TravelPlanData { TrainID = trainID, StartStationID = stationId, StartTime = startTime });
+            travelPlanDatas.Add(new TravelPlanData { TrainID = trainID, StartStationID = stationId, StartTime = startTime });
 
             return this;
         }
