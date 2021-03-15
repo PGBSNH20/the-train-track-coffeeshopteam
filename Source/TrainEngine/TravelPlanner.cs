@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 
@@ -9,24 +10,22 @@ namespace TrainEngine
     public class TravelPlanner : ITravelPlanner
     {
         /* travel planner */
-        // AddTrain();  *
+        // AddTrain();  *    check that element 1 and 2 are the only ones being able to be used.  *
         // AddTrack();  *
-        // StartAt();   *
-        // ArriveAt();  *
-        // GeneratePlan();
+        // StartAt();   *    Always write startAt() first                 *
+        // ArriveAt();  *    Inserts Arrival data into the StartAt data, also throws exception if no StartAt data exists     *
+        // GeneratePlan();   check for overlaps(train crash) and return a TravelPlan object
         public TrackDescription TrackDescription { get; set; }
-        public List<Station> stations;
-        public List<Train> Trains { get; set; } = new List<Train>();
+        public List<Station> Stations { get; set; }
+        public List<Train> Trains { get; set; }
         private List<TravelPlanData> travelPlanDatas;
-        private int startStationId;
-        private int arriveStationId;
-        private TimeSpan startTime;
-        private TimeSpan arriveTime;
-        private int trainID;
+        private int selectedTrainID;
 
         public TravelPlanner()
         {
-            stations = FileIO.LoadStations();
+            travelPlanDatas = new List<TravelPlanData>();
+            Stations = FileIO.LoadStations();
+            Trains = FileIO.ReadTrainInfo("Data/trains.txt");
         }
 
         //public TimeSpan ToTimeSpan(string time)
@@ -35,6 +34,18 @@ namespace TrainEngine
         //    return timeSpan;
         //}
 
+        public ITravelPlanner SelectTrain(int id)
+        {
+            // we take our Train list, and we try to Find the train with the same trainID, if its is operated
+            if (!Trains.Find(train => train.ID == id).IsOperated)
+            {
+                throw new Exception("This train is not running");
+            }
+
+            selectedTrainID = id;
+            return this;
+        }
+
         public ITravelPlanner AddTrain(Train train)
         {
             if (!train.IsOperated)
@@ -42,12 +53,18 @@ namespace TrainEngine
                 throw new Exception("This train is not running");
             }
 
-            //// Only want to add the train once to the list
+            // We want to check if it contains the same train , and if not you are adding a new train. If the train is there already then its selectedTrainID
             //if (!Trains.Contains(train))
-            //{
-            //    Trains.Add(train);
-            //}
-            trainID = train.ID;
+            if (!Trains.Any(t => t.ID == train.ID))
+            {
+                Trains.Add(train);
+            }
+            else
+            {
+                throw new Exception("A train with that ID already exists.");
+            }
+
+            selectedTrainID = train.ID;
             return this;
         }
 
@@ -59,54 +76,21 @@ namespace TrainEngine
 
         public ITravelPlanner StartAt(int stationId, string time)
         {
-            // startStation = GetStationById(stationId);
-            startStationId = stationId;
-            startTime = TimeSpan.Parse(time);
-            bool dataExists = false;
-
-            for (int i = 0; i < travelPlanDatas.Count; i++)
-            {
-                TravelPlanData travelPlanData = travelPlanDatas[i];
-                if (travelPlanData.TrainID == trainID &&
-                    travelPlanData.ArriveStationID == stationId &&
-                    travelPlanData.ArriveTime == startTime)
-                {
-                    dataExists = true;
-                    travelPlanData.StartStationID = stationId;
-                    travelPlanData.StartTime = startTime;
-                    break;
-                }
-            }
-
-            travelPlanDatas.Add(new TravelPlanData { TrainID = trainID, StartStationID = stationId, StartTime = startTime });
+            TimeSpan parsedTime = TimeSpan.Parse(time);
+            travelPlanDatas.Add(new TravelPlanData { TrainID = selectedTrainID, StartStationID = stationId, StartTime = parsedTime });
 
             return this;
         }
 
         public ITravelPlanner ArriveAt(int stationId, string time)
         {
-            //arriveStationId = stationId;
-            //arriveTime = TimeSpan.Parse(time);
-            //bool dataExists = false;
-
-            //for (int i = 0; i < travelPlanDatas.Count; i++)
-            //{
-            //    TravelPlanData data = travelPlanDatas[i];
-            //    if (data.TrainID == trainID &&
-            //        data.StartStationID == stationId &&
-            //        data.StartTime == startTime)
-            //    {
-            //        dataExists = true;
-            //        data.ArriveStationID = stationId;
-            //        data.ArriveTime = arriveTime;
-            //        break;
-            //    }
-            //}
-
-            //if (!dataExists)
-            //{
-            //    travelPlanDatas.Add(new TravelPlanData { TrainID = trainID, ArriveStationID = stationId, ArriveTime = arriveTime });
-            //}
+            TimeSpan parsedTime = TimeSpan.Parse(time);
+            // I want to find the last spot of the travelPlanDatas list to add to it, we are adding the arrive at data
+            // TravelPlanData workingData   = travelPlanDatas[travelPlanDatas.Count - 1] 
+            TravelPlanData workingData = travelPlanDatas[^1];
+            workingData.ArriveStationID = stationId;
+            workingData.ArriveTime = parsedTime;
+            travelPlanDatas[^1] = workingData;
 
             return this;
         }
@@ -114,7 +98,7 @@ namespace TrainEngine
         private Station GetStationById(int stationId)
         {
             // find stationID int to the file stationid
-            foreach (Station station in stations)
+            foreach (Station station in Stations)
             {
                 if (station.ID == stationId)
                 {
@@ -125,18 +109,41 @@ namespace TrainEngine
         }
 
         // Later it should return a ITravelPlan not a ITravelPlanner
-        public ITravelPlanner GeneratePlan()
+        public ITravelPlan GeneratePlan()
         {
-            //Console.WriteLine($"The train starts in {startStation} station at {startTime}.");
-            //Console.WriteLine($"The train arrives in {arriveStation} station at {arriveTime}.");
+            if(AreTrainsGoingToCrash())
+            {
+                throw new Exception("Invalid travel plan, trains are going to crash into each other.");
+            }
+            return new TravelPlan(travelPlanDatas, TrackDescription);
+        }
 
-            //Kontrollera om tåget IsActicve else kasta exception
-            // Kontrollera arrival time, meddela stor avvikelse
+        private bool AreTrainsGoingToCrash()
+        {
+            // train1  station1: 10:30 ----------> station2: 12:30
+            // train2  station2              11:30 -----------> station1: 13:30
 
-            // Använd Save() för att spara planen. 
-
-            Trains.ForEach(train => Console.WriteLine("Train name: " + train.Name));
-            return this;
+            //travelPlanDatas[0]. == travelPlanDatas[1];
+            travelPlanDatas[0].Equals(travelPlanDatas[1]);
+            foreach (TravelPlanData data in travelPlanDatas)
+            {
+                // IF the plan data is the same as the current element in the foreach then we skip it, 
+                // IF any of the stations if our foreach element is also in the planData element
+                int[] segmentIds = { data.StartStationID, data.ArriveStationID };
+                bool isGoingToCrash = travelPlanDatas.Any(planData =>
+                    !planData.Equals(data) &&
+                    // check if same track (if both stations exist in both data sets, it must be the same segment)
+                    segmentIds.Contains(planData.StartStationID) &&
+                    segmentIds.Contains(planData.ArriveStationID) &&
+                    // check if times overlap
+                    ((planData.StartTime <= data.StartTime && planData.ArriveTime >= data.StartTime) ||
+                    (planData.StartTime <= data.ArriveTime && planData.ArriveTime >= data.ArriveTime)));
+                if (isGoingToCrash)
+                {
+                    return isGoingToCrash;
+                }
+            }
+            return false;
         }
 
         public ITravelPlanner OpenLevelCrossing()
@@ -151,18 +158,6 @@ namespace TrainEngine
             return this;
         }
 
-        public void Save()
-        {
-            string jsonString = JsonSerializer.Serialize(this);
-            File.WriteAllText("Data/TravelPlan.txt", jsonString);
-        }
 
-        public void Load()
-        {
-            string jsonString = File.ReadAllText("Data/TravelPlan.txt");
-            TravelPlan travelPlan = JsonSerializer.Deserialize<TravelPlan>(jsonString);
-
-            TravelPlanDatas = travelPlan.TravelPlanDatas;
-        }
     }
 }

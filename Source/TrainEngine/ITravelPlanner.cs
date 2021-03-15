@@ -10,13 +10,15 @@ namespace TrainEngine
     {
         TrackDescription TrackDescription { get; set; }
         List<Train> Trains { get; set; }
+        List<Station> Stations { get; set; }
 
         ITravelPlanner StartAt(int stationID, string time);
         ITravelPlanner ArriveAt(int stationID, string time);
         ITravelPlanner AddTrack(TrackDescription trackDescription);
         ITravelPlanner AddTrain(Train train);
+        ITravelPlanner SelectTrain(int ID);
         ITravelPlanner OpenLevelCrossing();
         ITravelPlanner CloseLevelCrossing();
-        ITravelPlanner GeneratePlan();
+        ITravelPlan GeneratePlan();
     }
 }
