@@ -6,11 +6,39 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\passengers.txt" />
+    <None Remove="Data\stations.txt" />
+    <None Remove="Data\timetable.txt" />
     <None Remove="Data\trains.txt" />
+    <None Remove="Data\traintrack1.txt" />
+    <None Remove="Data\traintrack2.txt" />
+    <None Remove="Data\traintrack3.txt" />
+    <None Remove="Data\TravelPlan.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Data\passengers.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\stations.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\timetable.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\trains.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\traintrack1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\traintrack2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\traintrack3.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\TravelPlan.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -20,26 +48,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Data\passengers.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\stations.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\timetable.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
 
     <None Update="Data\trains.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\traintrack1.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\traintrack2.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\TravelPlan.txt">
     </None>
     <None Update="Data\traintrack.txt">
 

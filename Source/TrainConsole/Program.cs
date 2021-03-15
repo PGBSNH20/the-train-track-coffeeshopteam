@@ -44,12 +44,26 @@ namespace TrainConsole
             //var stations = to.LoadStation();
 
 
-            List<string> trackData = FileIO.GetDataFromFile("Data/traintrack2.txt");
-            TrackDescription trackDescription = trackOrm.ParseTrackDescription(trackData);
+            List<string> track2Path = FileIO.GetDataFromFile("Data/traintrack2.txt");
+            TrackDescription track2 = trackOrm.ParseTrackDescription(track2Path);
 
-            ITravelPlanner travelPlanSofie = new TravelPlanner().AddTrain(trains[3]).AddTrack(trackDescription).StartAt(1, "10:00").ArriveAt(2, "12:12").StartAt(2, "12:17").ArriveAt(3, "14:53").GeneratePlan();
+            TravelPlan travelPlanSofie = 
+                new TravelPlanner()
+                .AddTrain(trains[2])
+                .AddTrack(track2)
+                .StartAt(1, "10:00")
+                //.ArriveAt(2, "12:12")
+                //.StartAt(2, "12:17")
+                .ArriveAt(3, "14:53")
+                .GeneratePlan();
 
-            ITravelPlanner travelplan2 = new TravelPlanner().AddTrain(trains[0]).StartAt(1, "10:30").ArriveAt(2, "12:30").GeneratePlan();
+            TrainSimulator trainSimulator = new TrainSimulator(clock1);
+            trainSimulator.RunSimulation(travelPlanSofie);
+                
+                
+
+            Console.ReadLine();
+            //ITravelPlanner travelplan2 = new TravelPlanner().AddTrain(trains[0]).StartAt(1, "10:30").ArriveAt(2, "12:30").GeneratePlan();
             //travelplan2.Simulate(clock1);
         }
     }

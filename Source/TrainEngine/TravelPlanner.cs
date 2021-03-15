@@ -14,16 +14,18 @@ namespace TrainEngine
         // StartAt();   *
         // ArriveAt();  *
         // GeneratePlan();
+        private int trainID; 
         public TrackDescription TrackDescription { get; set; }
-        public List<Station> stations;
-        public List<Train> Trains { get; set; } = new List<Train>();
-        private List<TravelPlanData> travelPlanDatas;
         private int startStationId;
         private int arriveStationId;
         private TimeSpan startTime;
         private TimeSpan arriveTime;
-        private int trainID;
 
+        public List<Station> stations;
+        //public List<Train> Trains = new List<Train>();
+        private List<TravelPlanData> travelPlanDatas;
+        
+        
         public TravelPlanner()
         {
             stations = FileIO.LoadStations();
@@ -39,7 +41,7 @@ namespace TrainEngine
         {
             if (!train.IsOperated)
             {
-                throw new Exception("This train is not running");
+                throw new Exception("This train is not running"); // FÅr exception här
             }
 
             //// Only want to add the train once to the list
@@ -61,32 +63,40 @@ namespace TrainEngine
         {
             // startStation = GetStationById(stationId);
             startStationId = stationId;
+            //foreach (StationConnection sc in TrackDescription.StationConnections)
+            //{
+            //    if (sc.StationID == startStationId)
+            //    {
+            //        stationConnectionOrder.Add(sc);
+            //    }
+            //}
+
             startTime = TimeSpan.Parse(time);
-            bool dataExists = false;
+            //bool dataExists = false;
 
-            for (int i = 0; i < travelPlanDatas.Count; i++)
-            {
-                TravelPlanData travelPlanData = travelPlanDatas[i];
-                if (travelPlanData.TrainID == trainID &&
-                    travelPlanData.ArriveStationID == stationId &&
-                    travelPlanData.ArriveTime == startTime)
-                {
-                    dataExists = true;
-                    travelPlanData.StartStationID = stationId;
-                    travelPlanData.StartTime = startTime;
-                    break;
-                }
-            }
+            //for (int i = 0; i < travelPlanDatas.Count; i++)
+            //{
+            //    TravelPlanData travelPlanData = travelPlanDatas[i];
+            //    if (travelPlanData.TrainID == trainID &&
+            //        travelPlanData.ArriveStationID == stationId &&
+            //        travelPlanData.ArriveTime == startTime)
+            //    {
+            //        dataExists = true;
+            //        travelPlanData.StartStationID = stationId;
+            //        travelPlanData.StartTime = startTime;
+            //        break;
+            //    }
+            //}
 
-            travelPlanDatas.Add(new TravelPlanData { TrainID = trainID, StartStationID = stationId, StartTime = startTime });
+            //travelPlanDatas.Add(new TravelPlanData { TrainID = trainID, StartStationID = stationId, StartTime = startTime });
 
             return this;
         }
 
         public ITravelPlanner ArriveAt(int stationId, string time)
         {
-            //arriveStationId = stationId;
-            //arriveTime = TimeSpan.Parse(time);
+            arriveStationId = stationId;
+            arriveTime = TimeSpan.Parse(time);
             //bool dataExists = false;
 
             //for (int i = 0; i < travelPlanDatas.Count; i++)
@@ -125,18 +135,30 @@ namespace TrainEngine
         }
 
         // Later it should return a ITravelPlan not a ITravelPlanner
-        public ITravelPlanner GeneratePlan()
+        public TravelPlan GeneratePlan()
         {
-            //Console.WriteLine($"The train starts in {startStation} station at {startTime}.");
-            //Console.WriteLine($"The train arrives in {arriveStation} station at {arriveTime}.");
-
-            //Kontrollera om tåget IsActicve else kasta exception
-            // Kontrollera arrival time, meddela stor avvikelse
+            // Skapa en TravelPlan
+            TravelPlan travelPlan = new TravelPlan
+            {
+                TravelPlanDatas = 
+                    new List<TravelPlanData> 
+                    { 
+                        new TravelPlanData
+                        { 
+                            TrainID = trainID, 
+                            StartStationID = startStationId, 
+                            StartTime = startTime, 
+                            ArriveStationID = arriveStationId, 
+                            ArriveTime = arriveTime
+                        } 
+                    }
+            };
 
             // Använd Save() för att spara planen. 
-
-            Trains.ForEach(train => Console.WriteLine("Train name: " + train.Name));
-            return this;
+            Save(travelPlan); 
+            
+            //Trains.ForEach(train => Console.WriteLine("Train name: " + train.Name));
+            return travelPlan;
         }
 
         public ITravelPlanner OpenLevelCrossing()
@@ -151,10 +173,10 @@ namespace TrainEngine
             return this;
         }
 
-        public void Save()
+        public void Save(TravelPlan travelPlan)
         {
-            string jsonString = JsonSerializer.Serialize(this);
-            File.WriteAllText("Data/TravelPlan.txt", jsonString);
+            string jsonString = JsonSerializer.Serialize(travelPlan);
+            File.WriteAllText("Data/TravelPlan.json", jsonString);
         }
 
         public void Load()
@@ -162,7 +184,7 @@ namespace TrainEngine
             string jsonString = File.ReadAllText("Data/TravelPlan.txt");
             TravelPlan travelPlan = JsonSerializer.Deserialize<TravelPlan>(jsonString);
 
-            TravelPlanDatas = travelPlan.TravelPlanDatas;
+            //TravelPlanDatas = travelPlan.TravelPlanDatas;
         }
     }
 }

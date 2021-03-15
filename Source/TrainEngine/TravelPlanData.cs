@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TrainEngine
 {
-    struct TravelPlanData
+    public struct TravelPlanData
     {
         public int TrainID { get; set; }
         public int StartStationID { get; set; }

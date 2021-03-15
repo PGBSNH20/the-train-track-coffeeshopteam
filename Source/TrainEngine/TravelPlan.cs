@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace TrainEngine
 {
-    class TravelPlan : ITravelPlan
+    public class TravelPlan : ITravelPlan
     {
         public List<TravelPlanData> TravelPlanDatas { get; set; }
         /* travel plan */

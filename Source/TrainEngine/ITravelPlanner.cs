@@ -9,7 +9,7 @@ namespace TrainEngine
     public interface ITravelPlanner
     {
         TrackDescription TrackDescription { get; set; }
-        List<Train> Trains { get; set; }
+        //List<Train> Trains { get; set; }
 
         ITravelPlanner StartAt(int stationID, string time);
         ITravelPlanner ArriveAt(int stationID, string time);
@@ -17,6 +17,6 @@ namespace TrainEngine
         ITravelPlanner AddTrain(Train train);
         ITravelPlanner OpenLevelCrossing();
         ITravelPlanner CloseLevelCrossing();
-        ITravelPlanner GeneratePlan();
+        TravelPlan GeneratePlan();
     }
 }

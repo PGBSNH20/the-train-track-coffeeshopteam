@@ -6,7 +6,7 @@ namespace TrainEngine
 {
     interface ITravelPlan
     {
-        void Save();
-        void Load();
+        //void Save();
+        //void Load();
     }
 }
