@@ -38,7 +38,7 @@ namespace TrainEngine
                 Thread.Sleep(200);
                 if (clockIsRunnig)
                 {
-                    FakeTime = FakeTime.Add(TimeSpan.FromMinutes(1));
+                    FakeTime = FakeTime.Add(TimeSpan.FromMinutes(5));
 
                     Console.WriteLine(FakeTime.ToString(@"hh\:mm", CultureInfo.InvariantCulture));
                 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 
@@ -12,7 +13,10 @@ namespace TrainEngine
         public TrackDescription TrackDescription { get; set; }
 
         private Station DepartureStation;
-        private TimeSpan timeEvent;
+        private Station ArrivalStation;
+        private TimeSpan DepartureTime;
+        private TimeSpan ArrivalTime;
+
 
         public List<Event> TimeTable { get; set; } = new List<Event>();
         public TravelPlanner(Train train, Station stationBirth)
@@ -29,16 +33,37 @@ namespace TrainEngine
 
         public ITravelPlanner StartAt(string time)
         {
-            timeEvent = TimeSpan.Parse(time);
-            TimeTable.Add(new Event(timeEvent, Train, DepartureStation, Action.departure));
+            DepartureTime = TimeSpan.Parse(time);
             return this;
         }
-
-        public ITravelPlanner ArriveAt(Station stationArrival, string time)
+        public ITravelPlanner AddStop(Station stationIntermidiet, TimeSpan span)
         {
-            timeEvent = TimeSpan.Parse(time);
-            TimeTable.Add(new Event(timeEvent, Train, stationArrival, Action.arrival));
-            DepartureStation = stationArrival;
+            ArrivalStation = stationIntermidiet;
+            List<StationConnection> trackSections = TrackDescription.StationConnections;
+            int distance = 10*((StationConnection)trackSections.Single(s => s.StationID == DepartureStation.ID && s.StationIDDestination == ArrivalStation.ID)).Distance;
+            int travelTime = 60*distance / Train.MaxSpeed;
+            ArrivalTime = DepartureTime.Add(new TimeSpan(0,travelTime,0));
+
+            TimeTable.Add(new Event(Train, DepartureTime, ArrivalTime, DepartureStation, ArrivalStation, distance));
+
+            DepartureStation = ArrivalStation;
+            DepartureTime = ArrivalTime;
+            ArrivalTime = DepartureTime.Add(span);
+
+            TimeTable.Add(new Event(Train, DepartureTime, ArrivalTime, DepartureStation, ArrivalStation, 0));
+            DepartureTime = ArrivalTime;
+            return this;
+        }
+        public ITravelPlanner Destination(Station stationDestination)
+        {
+            ArrivalStation = stationDestination;            // upprepning
+            List<StationConnection> trackSections = TrackDescription.StationConnections;
+            int distance = 10*((StationConnection)trackSections.Single(s => s.StationID == DepartureStation.ID && s.StationIDDestination == ArrivalStation.ID)).Distance;
+            int travelTime = 60 * distance / Train.MaxSpeed;
+            ArrivalTime = DepartureTime.Add(new TimeSpan(0, travelTime, 0));
+            TimeTable.Add(new Event(Train, DepartureTime, ArrivalTime, DepartureStation, ArrivalStation, distance));
+            DepartureStation = ArrivalStation;
+            DepartureTime = ArrivalTime;
             return this;
         }
 
@@ -56,7 +81,7 @@ namespace TrainEngine
             for (int i = 0; i < TimeTable.Count; i++)
             {
                 Event e = TimeTable[i];
-                Console.WriteLine(e.Time +" : "+e.Train.Name+" "+e.Station.StationName+" "+e.Action);
+                Console.WriteLine(e.Train.Name + " "+ e.TimeDeparture + "-" +e.TimeArrival + "  "+ e.StationDeparture.StationName+"-"+e.StationArrival.StationName+" "+e.Distance);
             }
             return this;
         }

@@ -16,49 +16,29 @@ namespace TrainConsole
         {
             
             LoadInfo();
-            {
-                // List<TimeTableEvent> timeTable = FileIO.LoadTimeTable("Data/timetable.txt");
 
-                //ITravelPlan travelplan1 = new TravelPlan().AddTrain(trains[0]).StartAt("station1", "10:30").ArriveAt("station2", "12:30").GeneratePlan();
-
-                //travelplan1.Save();
-
-                //ITravelPlan travelplan2 = new TravelPlan();
-                //travelplan2.Load();
-                //travelplan2.GeneratePlan();
-
-                //var trains = FileIO.ReadTrainInfo("Data/trains.txt"); // test
-                //var stations = FileIO.LoadStation(); // test
-
-                //Fungerar inte, FileIO och metoden är static
-                //Test metod
-                //var to = new FileIO();
-                //var stations = to.LoadStation();
-
-
-                //List<string> trackData = FileIO.GetDataFromFile("Data/traintrack2.txt");
-                //TrackDescription trackDescription = trackOrm.ParseTrackDescription(trackData);
-
-                //ITravelPlanner travelPlanSofie = new TravelPlanner().AddTrain(trains[3]).StartAt(1, "10:00").ArriveAt(2, "12:12").StartAt(2, "12:17").ArriveAt(3, "14:53").GeneratePlan();
-
-                //ITravelPlanner travelplan2 = new TravelPlanner().AddTrain(trains[0]).StartAt(1, "10:30").ArriveAt(2, "12:30").GeneratePlan();
-                //travelplan2.Simulate(clock1);
-            }
-            ITravelPlanner travelPlanSvetlana =
+            ITravelPlanner travelPlanTrack2 =
                 new TravelPlanner(trains[1], stations[0])
                 .AddTrack(tracks[1])
                 .StartAt("10:00")
-                .ArriveAt(stations[1], "10:30")
-                .StartAt("10:35")
-                .ArriveAt(stations[2], "11:05")
+                .AddStop(stations[1], new TimeSpan(0,5,0))
+                .Destination(stations[2])
                 .GeneratePlan();
             Console.WriteLine("===============================================================");
 
-            IFakeClock myFakeClock = new FakeClock(new TimeSpan(9,0,0));
+            //ITravelPlanner travelPlanTrack1 =
+            //    new TravelPlanner(trains[1], stations[0])
+            //    .AddTrack(tracks[0])
+            //    .StartAt("10:00")
+            //    .Destination(stations[2])
+            //    .GeneratePlan();
+            //Console.WriteLine("===============================================================");
+
+            IFakeClock myFakeClock = new FakeClock(new TimeSpan(9, 0, 0));
             myFakeClock.Start();
 
             ITrainMovement myFirstTravel = new TrainMovement();
-            myFirstTravel.FollowTravelPlan(travelPlanSvetlana);
+            myFirstTravel.FollowTravelPlan(travelPlanTrack2);
 
         }
         public static void LoadInfo()

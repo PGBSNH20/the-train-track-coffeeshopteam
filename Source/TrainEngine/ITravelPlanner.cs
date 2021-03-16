@@ -12,8 +12,9 @@ namespace TrainEngine
         Train Train { get; set; }
         List<Event> TimeTable { get; set;}
         ITravelPlanner StartAt(string time);
-        ITravelPlanner ArriveAt(Station stationArrival, string time);
         ITravelPlanner AddTrack(TrackDescription trackDescription);
+        ITravelPlanner AddStop(Station stationIntermidiet, TimeSpan span);
+        ITravelPlanner Destination(Station stationDestination);
         ITravelPlanner OpenLevelCrossing();
         ITravelPlanner CloseLevelCrossing();
         ITravelPlanner GeneratePlan();

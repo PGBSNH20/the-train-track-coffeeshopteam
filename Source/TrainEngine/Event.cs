@@ -6,21 +6,21 @@ namespace TrainEngine
 {
     public class Event
     {
-        public TimeSpan Time { get; set;}
+
         public Train Train { get; set; }
-        public Station Station { get; set; }
-        public Action Action { get; set; }
-        public Event(TimeSpan time, Train train, Station station, Action action)
+        public TimeSpan TimeDeparture { get; set;}
+        public TimeSpan TimeArrival { get; set; }
+        public Station StationDeparture { get; set; }
+        public Station StationArrival { get; set; }
+        public int Distance { get; set; }
+        public Event(Train train, TimeSpan timeDeparture, TimeSpan timeArrival, Station stationDeparture, Station stationArrival, int distance)
         {
-            Time = time;
             Train = train;
-            Station = station;
-            Action = action;
+            TimeDeparture = timeDeparture;
+            TimeArrival = timeArrival;
+            StationDeparture = stationDeparture;
+            StationArrival = stationArrival;
+            Distance = distance;
         }
-    }
-    public enum Action
-    {
-        departure,
-        arrival
     }
 }
