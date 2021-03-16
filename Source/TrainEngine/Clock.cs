@@ -12,7 +12,7 @@ namespace TrainEngine
         // Static here because There should only be 1 time, so even if there is multiple clocks, the time is to the class, not to the object
         public static TimeSpan Time { get; set; }
         private bool isTicking;
-        readonly Thread timeThread;
+        Thread timeThread;
 
         public Clock()
         {
@@ -27,14 +27,15 @@ namespace TrainEngine
         {
             // loop, so it repeats itself and continues increasing the Time over time
             // actually increase the Time by for example 1 Minute every loop
+            //Start();
             Start();
             while (true)
             {
-                Thread.Sleep(100);
                 if (isTicking)
                 {
                     Time = Time.Add(TimeSpan.FromMinutes(1));
                 }
+                Thread.Sleep(5);
             }
         }
 
