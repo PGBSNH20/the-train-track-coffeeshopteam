@@ -14,12 +14,10 @@ namespace TrainEngine
             {
                 linesOfCSV = File.ReadAllLines(path);
             }
-            // if the file is not found, we dont close the program if it can't read a file, instead it will make a empty array and let you keep the program open
             catch (FileNotFoundException e)
             {
                 linesOfCSV = new string[0];
             }
-            // All other exceptions will be caught here, we write throw so the program will just close with all other exceptions.
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
@@ -42,7 +40,6 @@ namespace TrainEngine
             return csvData;
         }
 
-        // to read the train files. Behöver göra samma som LoadStaion?!
         public static List<string> GetDataFromFile(string path)
         {
             string[] linesOfCSV = ReadFile(path);
@@ -83,7 +80,6 @@ namespace TrainEngine
             return list;
         }
 
-        // Moved it from trackorm 
         public static List<Train> ReadTrainInfo(string path)
         {
             List<Train> trains = new List<Train>();
@@ -106,24 +102,6 @@ namespace TrainEngine
                 throw new Exception("Something went wrong with trains.txt");
             }
             return trains;
-        }
-      
-        // Added to chars in order so when the file is getting read it wont think its a new element when reading the file
-        public static string Sanitize(string text)
-        {
-            string sanitized = "";
-            foreach (var letter in text)
-            {
-                if (letter == ',' || letter == '\'' || letter == '-')
-                {
-                    sanitized += '"' + letter.ToString() + '"';
-                }
-                else
-                {
-                    sanitized += letter.ToString();
-                }
-            }
-            return sanitized;
         }
     }
 }
