@@ -1,20 +1,18 @@
 ### Travelplanner
 
-#### AddTrack
+#### ~AddTrack~ -Tar travelplanner som argument - hoppa över
 * Hoppar över
 
-#### SelectTrain
-* Exception
-* Travelplanner.trainID
-* Exception - two identical trains in the same planner? Move code?
+#### ~SelectTrain~
+* Exception - check
+* Travelplanner.trainID felhantering - check
 
-#### StartAt
+#### ~StartAt~
 * Kontrollera att travelplanner innehåller ett station id och en time
 * Kontrollera att station.ID existerar -check
 * Lägg time i tryparse -check
 
-#### ArriveAt
-* Kontrollera att travelplanner innehåller ett station id och en time
+#### ~ArriveAt~
 * Kontrollera att station.ID existerar -check
 * Lägg time i tryparse -check
 
@@ -31,10 +29,8 @@
 #### ~FindStart~ Klar
 * Kontrollera i Mocktrack -check
 
-### TrackDescription - Låt vara för nu
-
-### LevelCrossing - Låt vara för nu
+### ~TrackDescription~ - Inget att testa
 
 ### FileIO - Finns redan
 
-### Clock - Låt vara för nu
+### ~Clock~ - Inga meningsfulla tester
