@@ -123,8 +123,6 @@ namespace TrainEngine
             // train1  station1: 10:30 ----------> station2: 12:30
             // train2  station2              11:30 -----------> station1: 13:30
 
-            //travelPlanDatas[0]. == travelPlanDatas[1];
-            travelPlanDatas[0].Equals(travelPlanDatas[1]);
             foreach (TravelPlanData data in travelPlanDatas)
             {
                 // IF the plan data is the same as the current element in the foreach then we skip it, 

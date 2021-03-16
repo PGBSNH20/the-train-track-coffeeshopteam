@@ -27,6 +27,7 @@ namespace TrainEngine
         {
             // loop, so it repeats itself and continues increasing the Time over time
             // actually increase the Time by for example 1 Minute every loop
+            //Start();
             Start();
             while (true)
             {

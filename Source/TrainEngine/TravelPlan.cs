@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -34,36 +35,45 @@ namespace TrainEngine
 
         public void Simulate()
         {
-            // create thread for each train?! that drives the train
-            foreach(var data in travelPlanDatas)
-            {
-                //public int TrainID { get; set; }
-                //public int StartStationID { get; set; }
-                //public int ArriveStationID { get; set; }
-                //public TimeSpan StartTime { get; set; }
-                //public TimeSpan ArriveTime { get; set; }
-                Console.WriteLine($"Origin: {data.StartStationID}, Destination: {data.ArriveStationID}, Start: {data.StartTime}, Stop: {data.ArriveTime}, Train: {data.TrainID}");
-            }
+            // Set Clock
+            TimeSpan earliestStartTime = travelPlanDatas.Min(d => d.StartTime);
+            Clock.Time = earliestStartTime.Subtract(TimeSpan.FromMinutes(10));
+            Console.WriteLine("Clock set to earliest start time.");
+
+            int maxEventAmount = travelPlanDatas.Count * 2;
+            int eventCounter = 0;
+
             while (true)
             {
                 TimeSpan clockTime = Clock.Time;
                 string timeString = clockTime.ToString(@"hh\:mm", CultureInfo.InvariantCulture);
-                foreach (var data in travelPlanDatas)
+
+                for (int i = 0; i < travelPlanDatas.Count; i++)
                 {
-                    if (data.StartTime == clockTime)
+
+                    // check if data HasStarted
+                    if (!travelPlanDatas[i].HasStarted && travelPlanDatas[i].StartTime <= clockTime)
                     {
-                        string trainName = Trains.Find(train => train.ID == data.TrainID).Name;
-                        string stationName = Stations.Find(station => station.ID == data.StartStationID).StationName;
+                        string trainName = Trains.Find(train => train.ID == travelPlanDatas[i].TrainID).Name;
+                        string stationName = Stations.Find(station => station.ID == travelPlanDatas[i].StartStationID).StationName;
+                        travelPlanDatas[i].HasStarted = true;
+
+                        eventCounter++;
                         Console.WriteLine($"[{timeString}]: {trainName} is departing from {stationName}.");
                     }
-                    if (data.ArriveTime == clockTime)
+                    // check if data HasArrived
+                    if (!travelPlanDatas[i].HasArrived && travelPlanDatas[i].ArriveTime <= clockTime)
                     {
-                        string trainName = Trains.Find(train => train.ID == data.TrainID).Name;
-                        string stationName = Stations.Find(station => station.ID == data.StartStationID).StationName;
+                        string trainName = Trains.Find(train => train.ID == travelPlanDatas[i].TrainID).Name;
+                        string stationName = Stations.Find(station => station.ID == travelPlanDatas[i].StartStationID).StationName;
+                        travelPlanDatas[i].HasArrived = true;
+                        eventCounter++;
                         Console.WriteLine($"[{timeString}]: {trainName} is arriving at {stationName}.");
                     }
                 }
-                if (timeString == "23:59")
+
+                // TODO fix break condition to break after all trains did their thing instead of a specific time
+                if (eventCounter == maxEventAmount)
                 {
                     break;
                 }
