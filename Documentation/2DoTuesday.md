@@ -1,10 +1,9 @@
 ## Måste
-* Testa metoder i API
-* Felhantera GeneratePlan()
-* Lägga till kontroll och hantering om border <0 || >0 *_Svetlana_*
-* Save & Load travelPlan
-* Testa inläsning av traintrack2.txt
-* Merge gemensam kod i AddStop och Destination till egen metod *_Svetlana_*
+* Implementera level crossing *Svetlana*
+* Implementera distance *Alejandra*
+* Gör test och testa *Sofie och Randa*
+* Städa grönt
+* Städa metoder som inte används
 
 ## Önska
 * Mäta avstånd mellan stationer och level crossing
