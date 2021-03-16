@@ -5,21 +5,21 @@ namespace TrainEngine
     public class StationConnection
     {
         public int Distance { get; set; }
-        public int StationID { get; set; }
-        public int StationIDDestination { get; set; }
+        public int StartStationID { get; set; }
+        public int ArriveStationID { get; set; }
         public List<char> TrackParts { get; set; }
 
         public StationConnection(int stationID, int stationIDDestination, int distance, List<char> trackParts)
         {
             Distance = distance;
-            StationID = stationID;
-            StationIDDestination = stationIDDestination;
+            StartStationID = stationID;
+            ArriveStationID = stationIDDestination;
             TrackParts = trackParts;
         }
 
         public override string ToString()
         {
-            return $"Station1: {StationID}, Station2: {StationIDDestination}, Distance: {Distance}, TrackPartsCount: {TrackParts.Count}";
+            return $"Station1: {StartStationID}, Station2: {ArriveStationID}, Distance: {Distance}, TrackPartsCount: {TrackParts.Count}";
         }
     }
 

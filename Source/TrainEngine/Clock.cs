@@ -33,9 +33,19 @@ namespace TrainEngine
             {
                 if (isTicking)
                 {
+                    PrintClock();
                     Time = Time.Add(TimeSpan.FromMinutes(1));
                 }
-                Thread.Sleep(5);
+                Thread.Sleep(10);
+            }
+        }
+
+        private void PrintClock()
+        {
+            if (Time.Minutes % 15 == 0)
+            {
+                string timeString = Time.ToString(@"hh\:mm", CultureInfo.InvariantCulture);
+                Console.WriteLine($"[{timeString}]");
             }
         }
 
