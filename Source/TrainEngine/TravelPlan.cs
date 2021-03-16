@@ -17,7 +17,8 @@ namespace TrainEngine
         public List<Station> Stations { get; set; }
         public List<Train> Trains { get; set; }
         private Thread simulationThread;
-
+        public static bool isOpen = true;
+        private bool hasLevelCrossing;
 
         // variable(s): which train starts where/when and arrives where/when
         // simulate()   the trains driving (incl. opening/closing of level crossings), give each train a thread/access to the clock, so it runs by itself
@@ -47,9 +48,13 @@ namespace TrainEngine
             {
                 TimeSpan clockTime = Clock.Time;
                 string timeString = clockTime.ToString(@"hh\:mm", CultureInfo.InvariantCulture);
-
                 for (int i = 0; i < travelPlanDatas.Count; i++)
                 {
+                    // level crossing
+                    List<StationConnection> trackSections = TrackDescription.StationConnections;
+                    StationConnection connectionWithCrossing = trackSections.FirstOrDefault(s => s.StationID == travelPlanDatas[i].StartStationID  && s.StationIDDestination == travelPlanDatas[i].ArriveStationID && s.TrackParts.Contains('='));
+                    
+                    hasLevelCrossing = connectionWithCrossing != null ? true : false;
 
                     // check if data HasStarted
                     if (!travelPlanDatas[i].HasStarted && travelPlanDatas[i].StartTime <= clockTime)
@@ -60,14 +65,25 @@ namespace TrainEngine
 
                         eventCounter++;
                         Console.WriteLine($"[{timeString}]: {trainName} is departing from {stationName}.");
+                        if (hasLevelCrossing && isOpen)
+                        {
+                            Console.WriteLine($"[{timeString}]: Level crossing closes");
+                            isOpen = false;
+                        }
                     }
                     // check if data HasArrived
                     if (!travelPlanDatas[i].HasArrived && travelPlanDatas[i].ArriveTime <= clockTime)
                     {
                         string trainName = Trains.Find(train => train.ID == travelPlanDatas[i].TrainID).Name;
-                        string stationName = Stations.Find(station => station.ID == travelPlanDatas[i].StartStationID).StationName;
+                        string stationName = Stations.Find(station => station.ID == travelPlanDatas[i].ArriveStationID).StationName;
                         travelPlanDatas[i].HasArrived = true;
                         eventCounter++;
+                        if (hasLevelCrossing && !isOpen)
+                        {
+                            Console.WriteLine($"[{timeString}]: Level crossing opens");
+                            isOpen = true;
+                        }
+                        
                         Console.WriteLine($"[{timeString}]: {trainName} is arriving at {stationName}.");
                     }
                 }
