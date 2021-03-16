@@ -36,6 +36,12 @@ namespace TrainEngine
 
         public ITravelPlanner SelectTrain(int id)
         {
+            // we check if the provided train id is in the list
+            if (!Trains.Contains(Train[id]))
+            {
+                throw new Exception("Can´t find this train, please choose another train");
+            }
+
             // we take our Train list, and we try to Find the train with the same trainID, if its is operated
             if (!Trains.Find(train => train.ID == id).IsOperated)
             {
@@ -76,6 +82,11 @@ namespace TrainEngine
 
         public ITravelPlanner StartAt(int stationId, string time)
         {
+            if(!Stations.Contains(stationId))
+
+            {
+
+            }
             TimeSpan parsedTime = TimeSpan.Parse(time);
             travelPlanDatas.Add(new TravelPlanData { TrainID = selectedTrainID, StartStationID = stationId, StartTime = parsedTime });
 
