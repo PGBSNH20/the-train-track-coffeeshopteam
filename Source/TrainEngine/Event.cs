@@ -13,7 +13,8 @@ namespace TrainEngine
         public Station StationDeparture { get; set; }
         public Station StationArrival { get; set; }
         public int Distance { get; set; }
-        public Event(Train train, TimeSpan timeDeparture, TimeSpan timeArrival, Station stationDeparture, Station stationArrival, int distance)
+        public bool HasLevelCrossing { get; set; }
+        public Event(Train train, TimeSpan timeDeparture, TimeSpan timeArrival, Station stationDeparture, Station stationArrival, int distance, bool hasLevelCrossing)
         {
             Train = train;
             TimeDeparture = timeDeparture;
@@ -21,6 +22,7 @@ namespace TrainEngine
             StationDeparture = stationDeparture;
             StationArrival = stationArrival;
             Distance = distance;
+            HasLevelCrossing = hasLevelCrossing;
         }
     }
 }

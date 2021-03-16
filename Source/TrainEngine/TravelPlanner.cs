@@ -16,6 +16,7 @@ namespace TrainEngine
         private Station ArrivalStation;
         private TimeSpan DepartureTime;
         private TimeSpan ArrivalTime;
+        private bool hasLevelCrossing;
 
 
         public List<Event> TimeTable { get; set; } = new List<Event>();
@@ -44,13 +45,24 @@ namespace TrainEngine
             int travelTime = 60*distance / Train.MaxSpeed;
             ArrivalTime = DepartureTime.Add(new TimeSpan(0,travelTime,0));
 
-            TimeTable.Add(new Event(Train, DepartureTime, ArrivalTime, DepartureStation, ArrivalStation, distance));
+            StationConnection connectionWithCrossing = trackSections.FirstOrDefault(s => s.StationID == DepartureStation.ID && s.StationIDDestination == ArrivalStation.ID && s.TrackParts.Count == 1);
+
+            if (connectionWithCrossing != null)
+            {
+                hasLevelCrossing = true;
+            }
+            else
+            {
+                hasLevelCrossing = false;
+            }
+
+            TimeTable.Add(new Event(Train, DepartureTime, ArrivalTime, DepartureStation, ArrivalStation, distance, hasLevelCrossing));
 
             DepartureStation = ArrivalStation;
             DepartureTime = ArrivalTime;
             ArrivalTime = DepartureTime.Add(span);
 
-            TimeTable.Add(new Event(Train, DepartureTime, ArrivalTime, DepartureStation, ArrivalStation, 0));
+            TimeTable.Add(new Event(Train, DepartureTime, ArrivalTime, DepartureStation, ArrivalStation, 0, false));
             DepartureTime = ArrivalTime;
             return this;
         }
@@ -61,7 +73,18 @@ namespace TrainEngine
             int distance = 10*((StationConnection)trackSections.Single(s => s.StationID == DepartureStation.ID && s.StationIDDestination == ArrivalStation.ID)).Distance;
             int travelTime = 60 * distance / Train.MaxSpeed;
             ArrivalTime = DepartureTime.Add(new TimeSpan(0, travelTime, 0));
-            TimeTable.Add(new Event(Train, DepartureTime, ArrivalTime, DepartureStation, ArrivalStation, distance));
+            StationConnection connectionWithCrossing = trackSections.FirstOrDefault(s => s.StationID == DepartureStation.ID && s.StationIDDestination == ArrivalStation.ID && s.TrackParts.Count == 1);
+
+            if (connectionWithCrossing != null)
+            {
+                hasLevelCrossing = true;
+            }
+            else
+            {
+                hasLevelCrossing = false;
+            }
+
+            TimeTable.Add(new Event(Train, DepartureTime, ArrivalTime, DepartureStation, ArrivalStation, distance, hasLevelCrossing));
             DepartureStation = ArrivalStation;
             DepartureTime = ArrivalTime;
             return this;
@@ -76,12 +99,12 @@ namespace TrainEngine
             // kontrollera allt här 
             // kontrollera att TimeTable.Count>0
 
-            // skriva ut på consolen Travel plan
+            // skriva ut Travel plan på consolen 
             Console.WriteLine("Travel plan:");
             for (int i = 0; i < TimeTable.Count; i++)
             {
                 Event e = TimeTable[i];
-                Console.WriteLine(e.Train.Name + " "+ e.TimeDeparture + "-" +e.TimeArrival + "  "+ e.StationDeparture.StationName+"-"+e.StationArrival.StationName+" "+e.Distance);
+                Console.WriteLine(e.Train.Name + " "+ e.TimeDeparture + "-" +e.TimeArrival + "  "+ e.StationDeparture.StationName+"-"+e.StationArrival.StationName+" "+e.Distance+" level crossing: "+e.HasLevelCrossing);
             }
             return this;
         }
