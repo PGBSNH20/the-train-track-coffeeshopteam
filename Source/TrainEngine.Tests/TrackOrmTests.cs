@@ -25,7 +25,7 @@ namespace TrainEngine.Tests
         }
 
         [Fact]
-        public void Train_Fel_Format_Expect_Exseption_Message()
+        public void Train_Fel_Format_Expect_Exception_Message()
         {
             Action action = () => FileIO.ReadTrainInfo("Data/trains_wrong_format.txt");
             Exception exception = Assert.Throws<Exception>(action);
@@ -49,24 +49,37 @@ namespace TrainEngine.Tests
         [Fact]
         public void ReadFile_Typical_stations_Expect_Count_Four()
         {
-            // Needs to change Readfile into public in order to work
-            // Needs to change ParseStation into public in order to work
-
-
             var csvData = FileIO.GetDataFromFile("Data/stations_typical.txt", '|');
             var stations = FileIO.ParseStation(csvData);
             Assert.Equal(4, stations.Count);
         }
 
-          [Fact]
-          public void ReadFile_wrong_format_Expect_Count_Two()
-          {
-    //        // Needs to change Readfile into public in order to work
-    //        // Needs to change ParseStation into public in order to work
-
+        [Fact]
+        public void ReadFile_wrong_format_Expect_Count_Two()
+        {
             var csvData = FileIO.GetDataFromFile("Data/stations_wrong_format.txt", '|');
             var stations = FileIO.ParseStation(csvData);
             Assert.Equal(2, stations.Count);
+        }
+
+        [Fact]
+        public void FindStart_Expect_0_3()
+        {
+            TrackOrm trackOrm = new TrackOrm();
+            var path = "Data/mock_track.txt";
+            List<string> track = FileIO.GetDataFromFile(path);
+            Coordinate c = trackOrm.FindStart(track);
+            Assert.Equal(0, c.LinePosition);
+            Assert.Equal(3, c.CharacterPosition);
+        }
+
+        [Fact]
+        public void LoadTrack_expect_StationConnections_NotNull()
+        {
+            var path = "Data/mock_track.txt";
+            TrackOrm trackOrm = new TrackOrm();
+            TrackDescription track = trackOrm.LoadTrack(path);
+            Assert.NotNull(track.StationConnections);
         }
     }
 }
