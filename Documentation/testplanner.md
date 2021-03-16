@@ -25,10 +25,10 @@
 
 ### TrackOrm
 
-#### LoadTrack
+#### ~LoadTrack~
 * Kolla att contains stuff
 
-#### FindStart
+#### ~FindStart~
 * Kontrollera i Mocktrack
 
 ### TrackDescription - Låt vara för nu
