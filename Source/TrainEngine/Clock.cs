@@ -25,9 +25,6 @@ namespace TrainEngine
 
         public void PassTime()
         {
-            // loop, so it repeats itself and continues increasing the Time over time
-            // actually increase the Time by for example 1 Minute every loop
-            //Start();
             Start();
             while (true)
             {
@@ -49,27 +46,17 @@ namespace TrainEngine
             }
         }
 
-        // method Start()
         public void Start()
         {
             isTicking = true;
         }
 
-        // method stop()
-        public void Stop()
+        public void Stop() 
         {
             isTicking = false;
         }
 
-        // Method ShowTime()
-        public void ShowTime()
-        {
-            Console.WriteLine($"Current time is {Time.ToString(@"hh\:mm", CultureInfo.InvariantCulture)}"); 
-        }
-
-        // Method GetTime() : to give the time to other classes | or Property
-        // Don't need this be
-        public TimeSpan GetTime()
+        public TimeSpan GetTime() 
         {
             return Time;
         }

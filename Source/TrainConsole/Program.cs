@@ -14,21 +14,30 @@ namespace TrainConsole
 
             TrackOrm trackOrm = new TrackOrm();
             string track1Path = "Data/traintrack1.txt";
+            string track2Path = "Data/traintrack2.txt";
             TrackDescription track1 = trackOrm.LoadTrack(track1Path);
+            TrackDescription track2 = trackOrm.LoadTrack(track2Path);
 
-            List<string> track2Path = FileIO.GetDataFromFile("Data/traintrack2.txt");
-            TrackDescription track2 = trackOrm.ParseTrackDescription(track2Path);
+            ITravelPlan travelPlan =
+                new TravelPlanner()
+                .AddTrack(track2)
+                .SelectTrain(2)
+                .StartAt(1, "10:00")
+                .ArriveAt(2, "10:57")
+                .StartAt(2, "12:17")
+                .ArriveAt(3, "14:53")
+                .SelectTrain(3)
+                .StartAt(1, "12:30")
+                .ArriveAt(2, "17:00")
+                .GeneratePlan();
 
-            //string trainsPath = "Data/trains.txt";
-            //List<Train> trains = FileIO.ReadTrainInfo(trainsPath);
+            travelPlan.Save();
 
-            // ITravelPlan travelPlanSofie = new TravelPlanner().AddTrack(track2).SelectTrain(2).StartAt(1, "10:00").ArriveAt(2, "12:12").GeneratePlan();
-            ITravelPlan travelPlanAle = new TravelPlanner().AddTrack(track2).SelectTrain(2).StartAt(1, "10:00").ArriveAt(2, "12:12").StartAt(2, "12:17").ArriveAt(3, "14:53").SelectTrain(3).StartAt(1, "12:30").ArriveAt(2, "17:00").GeneratePlan();
             //  test to see if the trains would crash:
-            // ITravelPlan travelPlanShouldCrash = new TravelPlanner().AddTrack(track2).SelectTrain(2).StartAt(1, "10:00").ArriveAt(2, "12:12").SelectTrain(3).StartAt(2, "11:30").ArriveAt(1, "17:00").GeneratePlan();
-
-            //ITravelPlan travelplan2 = new TravelPlanner().AddTrain(trains[0]).StartAt(1, "10:30").ArriveAt(2, "12:30").GeneratePlan();
-            //travelplan2.Simulate(clock1);
+            // ITravelPlan travelPlanShouldCrash =
+            // new TravelPlanner()
+            // .AddTrack(track2)
+            // .SelectTrain(2).StartAt(1, "10:00").ArriveAt(2, "12:12").SelectTrain(3).StartAt(2, "11:30").ArriveAt(1, "17:00").GeneratePlan();
         }
     }
 }

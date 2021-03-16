@@ -11,14 +11,6 @@ namespace TrainEngine
 {
     public class TravelPlan : ITravelPlan
     {
-        // The goal, implement distance, 
-        // Golden Arrow train 120km/h
-        // - = 10km     stat1    100     stat2
-        // Caralos typed arrive at 12,        the actual time is 12:30
-        // After the formula, print out the actual train arrival
-
-        // print out deviation from planned arrival time 
-
         private List<TravelPlanData> travelPlanDatas;
         public TrackDescription TrackDescription { get; set; }
         public List<Station> Stations { get; set; }
@@ -31,9 +23,6 @@ namespace TrainEngine
         private double border2;
         private double currentPosition;
 
-
-        // variable(s): which train starts where/when and arrives where/when
-        // simulate()   the trains driving (incl. opening/closing of level crossings), give each train a thread/access to the clock, so it runs by itself
 
         public TravelPlan(List<TravelPlanData> travelPlanDatas, TrackDescription trackDescription)
         {
@@ -48,7 +37,6 @@ namespace TrainEngine
 
         public void Simulate()
         {
-            // Set Clock
             TimeSpan earliestStartTime = travelPlanDatas.Min(d => d.StartTime);
             Clock.Time = earliestStartTime.Subtract(TimeSpan.FromMinutes(10));
             Console.WriteLine($"Clock set to: {earliestStartTime}.");
@@ -80,6 +68,8 @@ namespace TrainEngine
                         currentPosition = 1.0 * (clockTime.Subtract(data.StartTime)).TotalHours * maxSpeed;
                     }
 
+                    // check if data HasStarted
+
                     if (!data.HasStarted && data.StartTime <= clockTime)
                     {
                         string trainName = Trains.Find(train => train.ID == data.TrainID).Name;
@@ -95,6 +85,7 @@ namespace TrainEngine
 
                         string output = $"[{timeString}]: {trainName} is departing from {stationName}.";
                         Console.WriteLine(output);
+
                         if (hasLevelCrossing && border1 < 0 && isOpen) // if distance between stations is less than 10 minutes  
                         {
                             CloseLevelCrossing(timeString);
@@ -111,7 +102,6 @@ namespace TrainEngine
                     // check if data HasArrived
                     else if (!data.HasArrived && data.ArriveTime <= clockTime)
                     {
-
                         string trainName = Trains.Find(train => train.ID == data.TrainID).Name;
                         string stationName = Stations.Find(station => station.ID == data.ArriveStationID).StationName;
 
@@ -136,7 +126,6 @@ namespace TrainEngine
                     }
                 }
 
-                // TODO fix break condition to break after all trains did their thing instead of a specific time
                 if (eventCounter == maxEventAmount)
                 {
                     break;
@@ -178,12 +167,12 @@ namespace TrainEngine
         public void Save()
         {
             string jsonString = JsonSerializer.Serialize(this);
-            File.WriteAllText("Data/TravelPlan.txt", jsonString);
+            File.WriteAllText("Data/TravelPlan.json", jsonString);
         }
 
         public void Load()
         {
-            string jsonString = File.ReadAllText("Data/TravelPlan.txt");
+            string jsonString = File.ReadAllText("Data/TravelPlan.json");
             TravelPlan travelPlan = JsonSerializer.Deserialize<TravelPlan>(jsonString);
 
             travelPlanDatas = travelPlan.travelPlanDatas;

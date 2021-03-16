@@ -22,11 +22,6 @@ namespace TrainEngine
     {
         public TrackDescription ParseTrackDescription(List<string> track)
         {
-            //List<int> StationIDs { get; set; }
-            //Dictionary<int, List<int>> StationConnections { get; set; }
-            //Dictionary<(int, int), int> StationDistances { get; set; }
-
-
             TrackDescription trackDescription = new TrackDescription();
 
             Coordinate startPosition = FindStart(track);
@@ -37,14 +32,7 @@ namespace TrainEngine
             for (int i = 0; i < track[startPosition.LinePosition].Length; i++)
             {
                 char symbol = track[startPosition.LinePosition][i];
-                // check what symbol it is
-                // if - add +10 to our distance variable
-                // if [ => must be a station number following
-                // if station number, skip next symbol (because it's a ]) and there is no previous station, then save it as from station
-                // if it is a station, check if we found a station before (to store distance)
-                // and if it's a station pair and all data is stored for it, reset distance and set "from station" to current station
-                // if space character => stop parsing this line
-
+               
                 // *[1]-------[3]
                 // *[1]---=--------[2]-------------[3]
 
@@ -59,7 +47,6 @@ namespace TrainEngine
                     {
                         var stationConnection = new StationConnection(currentStationId, stationId, distance, trackParts);
                         trackDescription.StationConnections.Add(stationConnection);
-                        // trackDescription.NumberOfTrackParts += trackParts.Count;
 
                         // Reset values
                         currentStationId = stationId;
