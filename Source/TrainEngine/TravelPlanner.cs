@@ -9,12 +9,6 @@ namespace TrainEngine
 {
     public class TravelPlanner : ITravelPlanner
     {
-        /* travel planner */
-        // AddTrain();  *    check that element 1 and 2 are the only ones being able to be used.  *
-        // AddTrack();  *
-        // StartAt();   *    Always write startAt() first                 *
-        // ArriveAt();  *    Inserts Arrival data into the StartAt data, also throws exception if no StartAt data exists     *
-        // GeneratePlan();   check for overlaps(train crash) and return a TravelPlan object
         public TrackDescription TrackDescription { get; set; }
         public List<Station> Stations { get; set; }
         public List<Train> Trains { get; set; }
@@ -27,12 +21,6 @@ namespace TrainEngine
             Stations = FileIO.LoadStations();
             Trains = FileIO.ReadTrainInfo("Data/trains.txt");
         }
-
-        //public TimeSpan ToTimeSpan(string time)
-        //{
-        //    TimeSpan timeSpan = TimeSpan.Parse(time);
-        //    return timeSpan;
-        //}
 
         public ITravelPlanner SelectTrain(int id)
         {
@@ -53,28 +41,6 @@ namespace TrainEngine
             return this;
         }
 
-        public ITravelPlanner AddTrain(Train train)
-        {
-            if (!train.IsOperated)
-            {
-                throw new Exception("This train is not running");
-            }
-
-            // We want to check if it contains the same train , and if not you are adding a new train. If the train is there already then its selectedTrainID
-            //if (!Trains.Contains(train))
-            if (!Trains.Any(t => t.ID == train.ID))
-            {
-                Trains.Add(train);
-            }
-            else
-            {
-                throw new Exception("A train with that ID already exists.");
-            }
-
-            selectedTrainID = train.ID;
-            return this;
-        }
-
         public ITravelPlanner AddTrack(TrackDescription trackDescription)
         {
             TrackDescription = trackDescription;
@@ -83,7 +49,6 @@ namespace TrainEngine
 
         public ITravelPlanner StartAt(int stationId, string time)
         {
-            // Check if the station is in the list
             if (Stations.FirstOrDefault(s => s.ID == stationId) is null)
             {
                 throw new Exception("Can´t find this station, please choose another station");
@@ -105,7 +70,6 @@ namespace TrainEngine
 
         public ITravelPlanner ArriveAt(int stationId, string time)
         {
-            // Check if the station is in the list
             if (Stations.FirstOrDefault(s => s.ID == stationId) is null)
             {
                 throw new Exception("Can´t find this station, please choose another station");
@@ -120,8 +84,8 @@ namespace TrainEngine
                 throw new Exception("Invalid time format");
 
             }
+
             // I want to find the last spot of the travelPlanDatas list to add to it, we are adding the arrive at data
-            // TravelPlanData workingData   = travelPlanDatas[travelPlanDatas.Count - 1] 
             TravelPlanData workingData = travelPlanDatas[^1];
             workingData.ArriveStationID = stationId;
             workingData.ArriveTime = parsedTime;
@@ -132,7 +96,6 @@ namespace TrainEngine
 
         private Station GetStationById(int stationId)
         {
-            // find stationID int to the file stationid
             foreach (Station station in Stations)
             {
                 if (station.ID == stationId)
@@ -143,7 +106,6 @@ namespace TrainEngine
             throw new Exception("Can't find the station.");
         }
 
-        // Later it should return a ITravelPlan not a ITravelPlanner
         public ITravelPlan GeneratePlan()
         {
             if(AreTrainsGoingToCrash())

@@ -15,7 +15,6 @@ namespace TrainEngine
         ITravelPlanner StartAt(int stationID, string time);
         ITravelPlanner ArriveAt(int stationID, string time);
         ITravelPlanner AddTrack(TrackDescription trackDescription);
-        ITravelPlanner AddTrain(Train train);
         ITravelPlanner SelectTrain(int ID);
         ITravelPlanner OpenLevelCrossing();
         ITravelPlanner CloseLevelCrossing();
