@@ -61,12 +61,12 @@ namespace TrainEngine
                     hasLevelCrossing = connectionWithCrossing != null ? true : false;
 
                    if (hasLevelCrossing)
-                    {
+                   {
                         maxSpeed = Trains.Find(train => train.ID == data.TrainID).MaxSpeed;
                         border1 = connectionWithCrossing.Distance * 10 / 2.0 - maxSpeed * 5.0 / 60; // close level crossing 5 minutes before the train passes  
                         border2 = connectionWithCrossing.Distance * 10 / 2.0 + maxSpeed * 5.0 / 60; // open level crossing 5 minutes after the train passes
                         currentPosition = 1.0 * (clockTime.Subtract(data.StartTime)).TotalHours * maxSpeed;
-                    }
+                   }
 
                     // check if data HasStarted
 
