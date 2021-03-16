@@ -18,17 +18,17 @@
 * Kontrollera att station.ID existerar
 * Lägg time i tryparse
 
-#### GeneratePlan()
+#### ~GeneratePlan()~ - Vi struntar i denna, vi har testat med felaktigt api. Det blir ingen idiotsäker setup.
 * Testa med api vi vet kraschar (testar även metod are stuff going to crash
 
 ### Travelplan - Inget att testa
 
 ### TrackOrm
 
-#### LoadTrack
+#### ~LoadTrack~ Klar
 * Kolla att contains stuff
 
-#### FindStart
+#### ~FindStart~ Klar
 * Kontrollera i Mocktrack
 
 ### TrackDescription - Låt vara för nu
