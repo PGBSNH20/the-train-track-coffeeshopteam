@@ -8,8 +8,10 @@
 
   <ItemGroup>
     <None Remove="Data\mock_track.txt" />
+    <None Remove="Data\stations.txt" />
     <None Remove="Data\stations_typical.txt" />
     <None Remove="Data\stations_wrong_format.txt" />
+    <None Remove="Data\trains.txt" />
     <None Remove="Data\trains_empty.txt" />
     <None Remove="trains_typical.txt" />
     <None Remove="trains_Wrong_Format.txt" />
@@ -19,6 +21,9 @@
     <Content Include="Data\mock_track.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Data\stations.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\stations_typical.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -26,6 +31,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\trains_empty.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\trains.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\trains_wrong_format.txt">
