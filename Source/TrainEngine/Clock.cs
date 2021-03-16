@@ -11,6 +11,7 @@ namespace TrainEngine
         // Goal a clock that imitates real life, but is shorter, so 1 hour is 60 seconds
         // Static here because There should only be 1 time, so even if there is multiple clocks, the time is to the class, not to the object
         public static TimeSpan Time { get; set; }
+        public static bool IsPrintingTime { get; set; }
         private bool isTicking;
         Thread timeThread;
 
@@ -22,7 +23,6 @@ namespace TrainEngine
             timeThread.IsBackground = true;
         }
 
-        // Method, PassTime()
         public void PassTime()
         {
             // loop, so it repeats itself and continues increasing the Time over time
@@ -42,7 +42,7 @@ namespace TrainEngine
 
         private void PrintClock()
         {
-            if (Time.Minutes % 15 == 0)
+            if (IsPrintingTime && Time.Minutes % 15 == 0)
             {
                 string timeString = Time.ToString(@"hh\:mm", CultureInfo.InvariantCulture);
                 Console.WriteLine($"[{timeString}]");

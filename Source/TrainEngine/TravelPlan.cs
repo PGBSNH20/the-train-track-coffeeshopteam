@@ -45,7 +45,8 @@ namespace TrainEngine
             // Set Clock
             TimeSpan earliestStartTime = travelPlanDatas.Min(d => d.StartTime);
             Clock.Time = earliestStartTime.Subtract(TimeSpan.FromMinutes(10));
-            Console.WriteLine("Clock set to earliest start time.");
+            Console.WriteLine($"Clock set to: {earliestStartTime}.");
+            Clock.IsPrintingTime = true;
 
             int maxEventAmount = travelPlanDatas.Count * 2;
             int eventCounter = 0;
@@ -76,6 +77,7 @@ namespace TrainEngine
                         string output = $"[{timeString}]: {trainName} is departing from {stationName}.";
                         Console.WriteLine(output);
                     }
+
                     // check if data HasArrived
                     else if (!data.HasArrived && data.ArriveTime <= clockTime)
                     {
