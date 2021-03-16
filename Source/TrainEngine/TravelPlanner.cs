@@ -83,12 +83,21 @@ namespace TrainEngine
 
         public ITravelPlanner StartAt(int stationId, string time)
         {
-            //if(!Stations.Contains(stationId))
-
+            // Check if the station is in the list
+            if (Stations.FirstOrDefault(s => s.ID == stationId) is null)
             {
+                throw new Exception("Can´t find this station, please choose another station");
+            }
+            TimeSpan parsedTime;
+            try
+            {
+                parsedTime = TimeSpan.Parse(time);
+            }
+            catch
+            {
+                throw new Exception("Invalid time format");
 
             }
-            TimeSpan parsedTime = TimeSpan.Parse(time);
             travelPlanDatas.Add(new TravelPlanData { TrainID = selectedTrainID, StartStationID = stationId, StartTime = parsedTime });
 
             return this;
@@ -96,7 +105,21 @@ namespace TrainEngine
 
         public ITravelPlanner ArriveAt(int stationId, string time)
         {
-            TimeSpan parsedTime = TimeSpan.Parse(time);
+            // Check if the station is in the list
+            if (Stations.FirstOrDefault(s => s.ID == stationId) is null)
+            {
+                throw new Exception("Can´t find this station, please choose another station");
+            }
+            TimeSpan parsedTime;
+            try
+            {
+                parsedTime = TimeSpan.Parse(time);
+            }
+            catch
+            {
+                throw new Exception("Invalid time format");
+
+            }
             // I want to find the last spot of the travelPlanDatas list to add to it, we are adding the arrive at data
             // TravelPlanData workingData   = travelPlanDatas[travelPlanDatas.Count - 1] 
             TravelPlanData workingData = travelPlanDatas[^1];
