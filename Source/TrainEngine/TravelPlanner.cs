@@ -25,13 +25,11 @@ namespace TrainEngine
         public ITravelPlanner SelectTrain(int id)
         {
             var train = Trains.FirstOrDefault(t => t.ID == id);
-            // we check if the provided train id is in the list
             if (train is null)
             {
                 throw new Exception("Can´t find this train, please choose another train");
             }
 
-            // we take our Train list, and we try to Find the train with the same trainID, if its is operated
             if (!train.IsOperated)
             {
                 throw new Exception("This train is not running");

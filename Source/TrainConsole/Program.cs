@@ -23,12 +23,12 @@ namespace TrainConsole
                 .AddTrack(track2)
                 .SelectTrain(2)
                 .StartAt(1, "10:00")
-                .ArriveAt(2, "10:57")
+                .ArriveAt(2, "10:56")
                 .StartAt(2, "12:17")
-                .ArriveAt(3, "14:53")
-                .SelectTrain(3)
-                .StartAt(1, "12:30")
-                .ArriveAt(2, "17:00")
+                .ArriveAt(3, "13:20")
+                //.SelectTrain(3)
+                //.StartAt(1, "12:30")
+                //.ArriveAt(2, "14:46")
                 .GeneratePlan();
 
             travelPlan.Save();

@@ -64,7 +64,7 @@ namespace TrainEngine
 
                    if (hasLevelCrossing)
                     {
-                        // level crossing is located in the middle between two stations(simplification)
+                        // level crossing is located between two stations
                         levelCrossing = connectionWithCrossing.Distance * 10 / 2.0;
                         maxSpeed = Trains.Find(train => train.ID == data.TrainID).MaxSpeed;
                         currentPosition = 1.0 * (clockTime.Subtract(data.StartTime)).TotalHours * maxSpeed;
